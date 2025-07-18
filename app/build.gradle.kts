@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.google.services)
+    alias(libs.plugins.dagger)
+    kotlin("kapt")
 }
 
 android {
@@ -47,5 +49,8 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    implementation(libs.firebase.bom)
+    implementation(platform(libs.firebase.bom))
+
+    implementation(libs.dagger.hilt)
+    kapt(libs.dagger.kapt)
 }
