@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.teebay.appname.R
 import com.teebay.appname.databinding.FragmentLoginBinding
 import com.teebay.appname.features.auth.model.LoginRequestModel
@@ -43,11 +44,11 @@ class LoginFragment : Fragment() {
                     Toast.makeText(requireContext(), "Please fill all the input field", Toast.LENGTH_SHORT).show()
                     return@setOnClickListener
                 }
-                viewModel.loginUser(email, password)
+                viewModel.loginUser(LoginRequestModel(email = email, password = password, fcmToken = null))
             }
 
             tvSignup.setOnClickListener {
-
+                findNavController().navigate(R.id.action_loginFragment_to_registrationFragment)
             }
         }
     }

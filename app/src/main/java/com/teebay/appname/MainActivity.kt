@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity() {
 
         Intent(this, AuthActivity::class.java).also {
             startActivity(it)
+            finish()
         }
     }
 }

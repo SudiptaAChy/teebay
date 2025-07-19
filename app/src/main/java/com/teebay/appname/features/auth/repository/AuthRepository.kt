@@ -1,6 +1,8 @@
 package com.teebay.appname.features.auth.repository
 
 import com.teebay.appname.features.auth.model.LoginRequestModel
+import com.teebay.appname.features.auth.model.RegisterRequestModel
+import com.teebay.appname.features.auth.model.RegisterResponseModel
 import com.teebay.appname.features.auth.service.AuthApiService
 import com.teebay.appname.network.mapResult
 import com.teebay.appname.network.safeApiCall
@@ -11,4 +13,7 @@ class AuthRepository @Inject constructor(
 ) {
     suspend fun login(request: LoginRequestModel): Result<LoginRequestModel> =
         safeApiCall { apiService.login(request).mapResult() }
+
+    suspend fun register(request: RegisterRequestModel): Result<RegisterResponseModel> =
+        safeApiCall { apiService.register(request).mapResult() }
 }
