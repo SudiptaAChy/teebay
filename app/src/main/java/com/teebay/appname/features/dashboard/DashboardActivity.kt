@@ -1,37 +1,21 @@
-package com.teebay.appname.features.auth.view
+package com.teebay.appname.features.dashboard
 
-import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.teebay.appname.R
-import com.teebay.appname.features.dashboard.DashboardActivity
-import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
-class AuthActivity : AppCompatActivity() {
+class DashboardActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_auth)
+        setContentView(R.layout.activity_dashboard)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-    }
-
-    fun gotoDashboard() {
-        Intent(this, DashboardActivity::class.java).also {
-            startActivity(it)
-            finish()
-        }
-    }
-
-    fun showMessage(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 }

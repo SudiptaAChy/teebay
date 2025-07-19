@@ -11,7 +11,9 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.teebay.appname.R
 import com.teebay.appname.databinding.FragmentRegistrationBinding
+import com.teebay.appname.features.auth.model.LoginRequestModel
 import com.teebay.appname.features.auth.model.RegisterRequestModel
+import com.teebay.appname.features.auth.model.RegisterResponseModel
 import com.teebay.appname.features.auth.viewModel.RegistrationViewModel
 import com.teebay.appname.network.ResponseState
 import dagger.hilt.android.AndroidEntryPoint
@@ -46,11 +48,11 @@ class RegistrationFragment : Fragment() {
                 val confirmPassword = etConfirmPassword.text.toString()
                 if (firstName.isEmpty() || lastName.isEmpty() || address.isEmpty() ||
                     email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
-                    showMessage("Please fill all the input field")
+                    (requireActivity() as AuthActivity).showMessage("Please fill all the input field")
                     return@setOnClickListener
                 }
                 if (password != confirmPassword) {
-                    showMessage("Password should be match with confirm password")
+                    (requireActivity() as AuthActivity).showMessage("Password should be match with confirm password")
                     return@setOnClickListener
                 }
                 viewModel.registerUser(
@@ -76,12 +78,16 @@ class RegistrationFragment : Fragment() {
             when(it) {
                 is ResponseState.Error -> {
                     hideLoader()
-                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                    (requireActivity() as AuthActivity).showMessage(it.message)
                 }
                 ResponseState.Loading -> showLoader()
                 is ResponseState.Success<*> -> {
                     hideLoader()
-                    Toast.makeText(requireContext(), it.data.toString(), Toast.LENGTH_SHORT).show()
+                    val data = it.data as? RegisterResponseModel
+                    data?.let { response ->
+                        viewModel.saveCredentials(response)
+                    }
+                    (requireActivity() as AuthActivity).gotoDashboard()
                 }
             }
         }
@@ -95,10 +101,6 @@ class RegistrationFragment : Fragment() {
     private fun hideLoader() {
         binding?.loader?.visibility = View.GONE
         binding?.btnRegister?.visibility = View.VISIBLE
-    }
-
-    private fun showMessage(message: String) {
-        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 
     override fun onDestroyView() {

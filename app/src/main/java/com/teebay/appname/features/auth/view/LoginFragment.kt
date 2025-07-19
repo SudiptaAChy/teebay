@@ -1,5 +1,6 @@
 package com.teebay.appname.features.auth.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import com.teebay.appname.R
 import com.teebay.appname.databinding.FragmentLoginBinding
 import com.teebay.appname.features.auth.model.LoginRequestModel
 import com.teebay.appname.features.auth.viewModel.LoginViewModel
+import com.teebay.appname.features.dashboard.DashboardActivity
 import com.teebay.appname.network.ResponseState
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -41,7 +43,7 @@ class LoginFragment : Fragment() {
                 val email = etEmail.text.toString().trim()
                 val password = etPassword.text.toString()
                 if (email.isEmpty() || password.isEmpty()) {
-                    Toast.makeText(requireContext(), "Please fill all the input field", Toast.LENGTH_SHORT).show()
+                    (requireActivity() as AuthActivity).showMessage("Please fill all the input field")
                     return@setOnClickListener
                 }
                 viewModel.loginUser(LoginRequestModel(email = email, password = password, fcmToken = null))
@@ -58,12 +60,16 @@ class LoginFragment : Fragment() {
             when(it) {
                 is ResponseState.Error -> {
                     hideLoader()
-                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                    (requireActivity() as AuthActivity).showMessage(it.message)
                 }
                 ResponseState.Loading -> showLoader()
                 is ResponseState.Success<*> -> {
                     hideLoader()
-                    Toast.makeText(requireContext(), it.data.toString(), Toast.LENGTH_SHORT).show()
+                    val data = it.data as? LoginRequestModel
+                    data?.let { response ->
+                        viewModel.saveCredentials(response)
+                    }
+                    (requireActivity() as AuthActivity).gotoDashboard()
                 }
             }
         }
