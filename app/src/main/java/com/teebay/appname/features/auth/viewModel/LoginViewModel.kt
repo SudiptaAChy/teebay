@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.teebay.appname.features.auth.model.LoginRequestModel
+import com.teebay.appname.features.auth.model.LoginResponseModel
 import com.teebay.appname.features.auth.repository.AuthRepository
 import com.teebay.appname.network.ResponseState
 import com.teebay.appname.utils.PrefKeys
@@ -32,8 +33,10 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    fun saveCredentials(data: LoginRequestModel) {
-        data.email?.let { pref.put(PrefKeys.EMAIL.name, it) }
-        data.password?.let { pref.put(PrefKeys.PASSWORD.name, it) }
+    fun saveCredentials(data: LoginResponseModel) {
+        data.user?.let { user ->
+            user.email?.let { pref.put(PrefKeys.EMAIL.name, it) }
+            user.password?.let { pref.put(PrefKeys.PASSWORD.name, it) }
+        }
     }
 }

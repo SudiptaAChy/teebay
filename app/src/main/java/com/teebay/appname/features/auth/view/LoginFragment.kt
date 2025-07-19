@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.teebay.appname.R
 import com.teebay.appname.databinding.FragmentLoginBinding
 import com.teebay.appname.features.auth.model.LoginRequestModel
+import com.teebay.appname.features.auth.model.LoginResponseModel
 import com.teebay.appname.features.auth.viewModel.LoginViewModel
 import com.teebay.appname.features.dashboard.DashboardActivity
 import com.teebay.appname.network.ResponseState
@@ -65,7 +66,7 @@ class LoginFragment : Fragment() {
                 ResponseState.Loading -> showLoader()
                 is ResponseState.Success<*> -> {
                     hideLoader()
-                    val data = it.data as? LoginRequestModel
+                    val data = it.data as? LoginResponseModel
                     data?.let { response ->
                         viewModel.saveCredentials(response)
                     }
