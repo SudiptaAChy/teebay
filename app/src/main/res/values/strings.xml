@@ -16,4 +16,7 @@
     <string name="last_name">Last Name</string>
     <string name="address">Address</string>
     <string name="confirm_password">Confirm Password</string>
+    <string name="profile">Profile</string>
+    <string name="my_product">My Product</string>
+    <string name="all_product">All Product</string>
 </resources>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/miAllProduct"
+        android:icon="@drawable/ic_all_product"
+        android:title="@string/all_product" />
+
+    <item
+        android:id="@+id/miMyProduct"
+        android:icon="@drawable/ic_my_product"
+        android:title="@string/my_product" />
+
+    <item
+        android:id="@+id/miProfile"
+        android:icon="@drawable/ic_profile"
+        android:title="@string/profile" />
+</menu>
