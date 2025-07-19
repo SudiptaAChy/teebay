@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.google.services)
     alias(libs.plugins.dagger)
     kotlin("kapt")
+    kotlin("plugin.serialization") version "2.0.21"
 }
 
 android {
@@ -36,6 +37,9 @@ android {
     kotlin {
         jvmToolchain(11)
     }
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -62,4 +66,13 @@ dependencies {
 
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android)
+
+    implementation(libs.androidx.navigation.fragment)
+    implementation(libs.androidx.navigation.ui)
+    implementation(libs.kotlinx.serialization.json)
+
+    implementation(libs.sdp.android)
+
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
 }
