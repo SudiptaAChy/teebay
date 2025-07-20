@@ -19,4 +19,5 @@
     <string name="profile">Profile</string>
     <string name="my_product">My Product</string>
     <string name="all_product">All Product</string>
+    <string name="logout">Logout</string>
 </resources>

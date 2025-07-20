@@ -10,6 +10,7 @@ import com.teebay.appname.features.auth.repository.AuthRepository
 import com.teebay.appname.network.ResponseState
 import com.teebay.appname.utils.PrefKeys
 import com.teebay.appname.utils.SecuredSharedPref
+import com.teebay.appname.utils.SharedPref
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,7 +18,8 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val repository: AuthRepository,
-    private val pref: SecuredSharedPref
+    private val securedPref: SecuredSharedPref,
+    private val pref: SharedPref,
 ): ViewModel() {
     private val _state = MutableLiveData<ResponseState<Any>>()
     val state: LiveData<ResponseState<Any>> = _state
@@ -35,8 +37,11 @@ class LoginViewModel @Inject constructor(
 
     fun saveCredentials(data: LoginResponseModel) {
         data.user?.let { user ->
-            user.email?.let { pref.put(PrefKeys.EMAIL.name, it) }
-            user.password?.let { pref.put(PrefKeys.PASSWORD.name, it) }
+            user.email?.let { securedPref.put(PrefKeys.EMAIL.name, it) }
+            user.password?.let { securedPref.put(PrefKeys.PASSWORD.name, it) }
+            user.firstName?.let { pref.put(PrefKeys.FNAME.name, it) }
+            user.lastName?.let { pref.put(PrefKeys.LNAME.name, it) }
+            user.address?.let { pref.put(PrefKeys.ADDRESS.name, it) }
         }
     }
 }

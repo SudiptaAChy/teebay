@@ -10,8 +10,10 @@ import com.teebay.appname.R
 import com.teebay.appname.databinding.ActivityDashboardBinding
 import com.teebay.appname.features.allProduct.AllProductFragment
 import com.teebay.appname.features.myProduct.MyProductFragment
-import com.teebay.appname.features.profile.ProfileFragment
+import com.teebay.appname.features.profile.view.ProfileFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DashboardActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDashboardBinding
 

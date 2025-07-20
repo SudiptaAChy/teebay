@@ -4,13 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.teebay.appname.features.auth.model.LoginRequestModel
 import com.teebay.appname.features.auth.model.RegisterRequestModel
 import com.teebay.appname.features.auth.model.RegisterResponseModel
 import com.teebay.appname.features.auth.repository.AuthRepository
 import com.teebay.appname.network.ResponseState
 import com.teebay.appname.utils.PrefKeys
 import com.teebay.appname.utils.SecuredSharedPref
+import com.teebay.appname.utils.SharedPref
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -18,7 +18,8 @@ import javax.inject.Inject
 @HiltViewModel
 class RegistrationViewModel @Inject constructor(
     private val repository: AuthRepository,
-    private val pref: SecuredSharedPref
+    private val securedPref: SecuredSharedPref,
+    private val pref: SharedPref,
 ): ViewModel() {
     private val _state = MutableLiveData<ResponseState<Any>>()
     val state: LiveData<ResponseState<Any>> = _state
@@ -37,7 +38,10 @@ class RegistrationViewModel @Inject constructor(
     }
 
     fun saveCredentials(data: RegisterResponseModel) {
-        data.email?.let { pref.put(PrefKeys.EMAIL.name, it) }
-        data.password?.let { pref.put(PrefKeys.PASSWORD.name, it) }
+        data.email?.let { securedPref.put(PrefKeys.EMAIL.name, it) }
+        data.password?.let { securedPref.put(PrefKeys.PASSWORD.name, it) }
+        data.firstName?.let { pref.put(PrefKeys.FNAME.name, it) }
+        data.lastName?.let { pref.put(PrefKeys.LNAME.name, it) }
+        data.address?.let { pref.put(PrefKeys.ADDRESS.name, it) }
     }
 }
