@@ -77,4 +77,6 @@ dependencies {
     implementation(libs.androidx.lifecycle.livedata.ktx)
 
     implementation("androidx.security:security-crypto:1.0.0-alpha02")
+
+    implementation("com.github.bumptech.glide:glide:4.16.0")
 }

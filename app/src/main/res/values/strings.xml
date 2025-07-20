@@ -20,4 +20,21 @@
     <string name="my_product">My Product</string>
     <string name="all_product">All Product</string>
     <string name="logout">Logout</string>
+    <string name="add_product">add product</string>
+    <string name="prev">Prev</string>
+    <string name="next">Next</string>
+    <string name="select_title_of_your_product">Select title of your product</string>
+    <string name="select_category">Select Category</string>
+    <string name="select_description">Select Description</string>
+    <string name="description">Description</string>
+    <string name="select_price">Select Price</string>
+    <string name="purchase_price">Purchase Price</string>
+    <string name="rent">Rent</string>
+    <string name="rent_price">Rent Price</string>
+    <string name="select_option">Select Option</string>
+    <string name="summary">Summary</string>
+    <string name="upload_product_picture">Upload Product Picture</string>
+    <string name="upload_picture_camera">Take picture using camera</string>
+    <string name="upload_picture_gallery">Upload picture from device</string>
+    <string name="submit">Submit</string>
 </resources>

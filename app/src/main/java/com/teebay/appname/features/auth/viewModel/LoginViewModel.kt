@@ -37,6 +37,7 @@ class LoginViewModel @Inject constructor(
 
     fun saveCredentials(data: LoginResponseModel) {
         data.user?.let { user ->
+            user.id?.let { securedPref.put(PrefKeys.ID.name, it) }
             user.email?.let { securedPref.put(PrefKeys.EMAIL.name, it) }
             user.password?.let { securedPref.put(PrefKeys.PASSWORD.name, it) }
             user.firstName?.let { pref.put(PrefKeys.FNAME.name, it) }

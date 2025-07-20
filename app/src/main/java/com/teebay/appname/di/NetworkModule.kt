@@ -1,6 +1,7 @@
 package com.teebay.appname.di
 
 import com.teebay.appname.features.auth.service.AuthApiService
+import com.teebay.appname.features.myProduct.service.ProductApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -50,4 +51,9 @@ class NetworkModule {
     @Provides
     fun providesAuthApi(retrofit: Retrofit): AuthApiService =
         retrofit.create(AuthApiService::class.java)
+
+    @Singleton
+    @Provides
+    fun providesProductApi(retrofit: Retrofit): ProductApiService =
+        retrofit.create(ProductApiService::class.java)
 }
