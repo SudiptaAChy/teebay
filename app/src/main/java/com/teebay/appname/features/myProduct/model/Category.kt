@@ -1,6 +1,6 @@
 package com.teebay.appname.features.myProduct.model
 
-data class CategoryResponseModel(
+data class Category(
     val label: String?,
     val value: String?
 )

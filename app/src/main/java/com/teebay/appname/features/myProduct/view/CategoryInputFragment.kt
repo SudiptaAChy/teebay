@@ -8,10 +8,8 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
-import com.teebay.appname.R
 import com.teebay.appname.databinding.FragmentCategoryInputBinding
-import com.teebay.appname.features.dashboard.DashboardActivity
-import com.teebay.appname.features.myProduct.model.CategoryResponseModel
+import com.teebay.appname.features.myProduct.model.Category
 import com.teebay.appname.features.myProduct.viewModel.AddProductViewModel
 import com.teebay.appname.network.ResponseState
 
@@ -19,7 +17,7 @@ class CategoryInputFragment : Fragment() {
     private var binding: FragmentCategoryInputBinding? = null
     private val viewModel: AddProductViewModel by activityViewModels()
 
-    private lateinit var categories: List<CategoryResponseModel>
+    private lateinit var categories: List<Category>
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,7 +40,7 @@ class CategoryInputFragment : Fragment() {
                 }
                 ResponseState.Loading -> {}
                 is ResponseState.Success<*> -> {
-                    categories = it.data as List<CategoryResponseModel>
+                    categories = it.data as List<Category>
                     ArrayAdapter(
                         requireContext(),
                         android.R.layout.simple_spinner_item,

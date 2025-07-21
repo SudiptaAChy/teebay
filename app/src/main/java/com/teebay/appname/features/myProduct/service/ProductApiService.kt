@@ -2,7 +2,7 @@ package com.teebay.appname.features.myProduct.service
 
 import com.teebay.appname.features.allProduct.model.Product
 import com.teebay.appname.features.myProduct.model.AddProductResponseModel
-import com.teebay.appname.features.myProduct.model.CategoryResponseModel
+import com.teebay.appname.features.myProduct.model.Category
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
@@ -26,7 +26,7 @@ interface ProductApiService {
     ): Response<AddProductResponseModel>
 
     @GET("products/categories/")
-    suspend fun fetchCategories(): Response<List<CategoryResponseModel>>
+    suspend fun fetchCategories(): Response<List<Category>>
 
     @GET("products/")
     suspend fun fetchtAllProducts(): Response<List<Product>>

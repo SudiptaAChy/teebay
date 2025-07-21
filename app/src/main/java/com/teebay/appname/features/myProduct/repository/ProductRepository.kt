@@ -3,7 +3,7 @@ package com.teebay.appname.features.myProduct.repository
 import com.teebay.appname.features.allProduct.model.Product
 import com.teebay.appname.features.myProduct.model.AddProductRequestModel
 import com.teebay.appname.features.myProduct.model.AddProductResponseModel
-import com.teebay.appname.features.myProduct.model.CategoryResponseModel
+import com.teebay.appname.features.myProduct.model.Category
 import com.teebay.appname.features.myProduct.service.ProductApiService
 import com.teebay.appname.network.mapResult
 import com.teebay.appname.network.safeApiCall
@@ -46,7 +46,7 @@ class ProductRepository @Inject constructor(
         }
     }
 
-    suspend fun fetchCategories(): Result<List<CategoryResponseModel>> =
+    suspend fun fetchCategories(): Result<List<Category>> =
         safeApiCall { apiService.fetchCategories().mapResult() }
 
     suspend fun fetchAllProducts(): Result<List<Product>> =
