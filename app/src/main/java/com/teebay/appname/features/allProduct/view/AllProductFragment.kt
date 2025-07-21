@@ -1,18 +1,18 @@
 package com.teebay.appname.features.allProduct.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.teebay.appname.R
 import com.teebay.appname.databinding.FragmentAllProductBinding
+import com.teebay.appname.features.allProduct.adapter.CategoryListAdapter
 import com.teebay.appname.features.allProduct.adapter.ProductListAdapter
 import com.teebay.appname.features.allProduct.model.Product
 import com.teebay.appname.features.allProduct.viewModel.ProductViewModel
+import com.teebay.appname.features.myProduct.model.Category
 import com.teebay.appname.network.ResponseState
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -20,6 +20,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class AllProductFragment : Fragment() {
     private var binding: FragmentAllProductBinding? = null
     private val viewModel: ProductViewModel by viewModels()
+
+    private lateinit var productAdapter: ProductListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,9 +57,27 @@ class AllProductFragment : Fragment() {
                     binding?.rvProduct?.visibility = View.VISIBLE
 
                     val result = it.data as List<Product>
-                    Log.d("sadsdfsdfdsf", "Result ::: $result")
-                    val adapter = ProductListAdapter(result)
-                    binding?.rvProduct?.adapter = adapter
+                    productAdapter = ProductListAdapter(result)
+                    binding?.rvProduct?.adapter = productAdapter
+                }
+            }
+        }
+
+        viewModel.categoriesState.observe(viewLifecycleOwner) {
+            when(it) {
+                is ResponseState.Error -> {
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                }
+                ResponseState.Loading -> {}
+                is ResponseState.Success<*> -> {
+                    val result = it.data as List<Category>
+                    binding?.tvCategory?.apply {
+                        visibility = View.VISIBLE
+                        adapter = CategoryListAdapter(result) {
+                            val products = viewModel.onCategorySelected(it)
+                            productAdapter.setData(products)
+                        }
+                    }
                 }
             }
         }

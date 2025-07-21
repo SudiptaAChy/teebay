@@ -4,4 +4,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="url">#0096FF</color>
     <color name="grey">#808080</color>
+    <color name="selectedColor">#CF9FFF</color>
 </resources>

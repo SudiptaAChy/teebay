@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardView"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/_6sdp"
+    app:cardCornerRadius="@dimen/_12sdp"
+    app:strokeColor="@color/black"
+    app:strokeWidth="2dp">
+    <TextView
+        android:id="@+id/tvCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Electronics"
+        android:textSize="@dimen/_12sdp"
+        android:textColor="@color/black"
+        android:padding="@dimen/_8sdp"/>
+</com.google.android.material.card.MaterialCardView>

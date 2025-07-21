@@ -7,9 +7,22 @@
     tools:context=".features.allProduct.view.AllProductFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvProduct"
+        android:id="@+id/tvCategory"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/rvProduct"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:listitem="@layout/category_item_view"
+        android:orientation="horizontal"
+        tools:itemCount="3"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvProduct"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintTop_toBottomOf="@+id/tvCategory"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
