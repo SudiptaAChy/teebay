@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import com.teebay.appname.databinding.FragmentAllProductBinding
 import com.teebay.appname.features.allProduct.adapter.CategoryListAdapter
 import com.teebay.appname.features.allProduct.adapter.ProductListAdapter
@@ -19,7 +19,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class AllProductFragment : Fragment() {
     private var binding: FragmentAllProductBinding? = null
-    private val viewModel: ProductViewModel by viewModels()
+    private val viewModel: ProductViewModel by activityViewModels()
 
     private lateinit var productAdapter: ProductListAdapter
 

@@ -4,19 +4,23 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.teebay.appname.constants.PrefKeys
 import com.teebay.appname.features.allProduct.model.Product
 import com.teebay.appname.features.myProduct.model.Category
 import com.teebay.appname.features.myProduct.repository.ProductRepository
 import com.teebay.appname.network.ResponseState
+import com.teebay.appname.utils.SecuredSharedPref
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
 class ProductViewModel @Inject constructor(
-    private val repository: ProductRepository
+    private val repository: ProductRepository,
+    private val pref: SecuredSharedPref
 ): ViewModel() {
     private val _productState = MutableLiveData<ResponseState<Any>>()
     val productState: LiveData<ResponseState<Any>> = _productState
@@ -69,5 +73,10 @@ class ProductViewModel @Inject constructor(
         }
 
         return filteredProducts
+    }
+
+    fun fetchMyProducts(): List<Product> {
+        val id = pref.get(PrefKeys.ID.name, null)?.toInt() ?: return emptyList()
+        return allProducts.filter { it.seller == id }
     }
 }
