@@ -8,7 +8,7 @@ import com.teebay.appname.features.auth.model.RegisterRequestModel
 import com.teebay.appname.features.auth.model.RegisterResponseModel
 import com.teebay.appname.features.auth.repository.AuthRepository
 import com.teebay.appname.network.ResponseState
-import com.teebay.appname.utils.PrefKeys
+import com.teebay.appname.constants.PrefKeys
 import com.teebay.appname.utils.SecuredSharedPref
 import com.teebay.appname.utils.SharedPref
 import dagger.hilt.android.lifecycle.HiltViewModel

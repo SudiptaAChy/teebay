@@ -5,17 +5,16 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.teebay.appname.features.myProduct.model.AddProductRequestModel
-import com.teebay.appname.features.myProduct.model.AddProductResponseModel
 import com.teebay.appname.features.myProduct.repository.ProductRepository
 import com.teebay.appname.network.ResponseState
-import com.teebay.appname.utils.PrefKeys
+import com.teebay.appname.constants.PrefKeys
 import com.teebay.appname.utils.SecuredSharedPref
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import okhttp3.MultipartBody
 import javax.inject.Inject
-import kotlin.Int
 
 @HiltViewModel
 class AddProductViewModel @Inject constructor(
@@ -30,6 +29,9 @@ class AddProductViewModel @Inject constructor(
 
     private val _productState = MutableLiveData<ResponseState<Any>>()
     val productState: LiveData<ResponseState<Any>> = _productState
+
+    private val _categoriesState = MutableLiveData<ResponseState<Any>>()
+    val categoriesState: LiveData<ResponseState<Any>> = _categoriesState
 
     fun addTitle(value: String) {
         val newProduct = _product.value?.copy(title = value)
@@ -64,7 +66,7 @@ class AddProductViewModel @Inject constructor(
         _productSummary.value = getSummary()
     }
 
-    fun addImage(value: String) {
+    fun addImage(value: MultipartBody.Part) {
         val newProduct = _product.value?.copy(productImage = value)
         newProduct?.let { _product.value = it }
     }
@@ -79,9 +81,23 @@ class AddProductViewModel @Inject constructor(
         """.trimIndent()
     }
 
+    fun fetchCategories() {
+        viewModelScope.launch {
+            val result = withContext(Dispatchers.IO) { repository.fetchCategories() }
+            _categoriesState.value = result.fold(
+                onSuccess = { ResponseState.Success(it) },
+                onFailure = { ResponseState.Error(it.message ?: "unknown error") }
+            )
+        }
+    }
+
     fun submitProduct() {
-        val id = securedPref.get(PrefKeys.ID.name, null) ?: return
-        val request = _product.value?.copy(seller = id.toInt()) ?: return
+        val id = securedPref.get(PrefKeys.ID.name, null)?.toInt()
+        val request = _product.value?.copy(seller = id?.toInt())
+            ?: run {
+                _productState.value = ResponseState.Error("Some field is missing!")
+                return
+            }
 
         _productState.value = ResponseState.Loading
 

@@ -25,8 +25,6 @@ class SecuredSharedPref @Inject constructor(
 
     fun put(key: String, value: String) = pref.edit { putString(key, value) }
 
-    fun put(key: String, value: Int) = pref.edit { putInt(key, value) }
-
     fun get(key: String, default: String? = null): String? = pref.getString(key, default)
 
     fun remove(key: String) = pref.edit { remove(key) }

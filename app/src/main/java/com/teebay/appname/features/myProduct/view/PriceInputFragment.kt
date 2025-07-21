@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.activityViewModels
-import com.teebay.appname.R
+import com.teebay.appname.constants.RentOption
 import com.teebay.appname.databinding.FragmentPriceInputBinding
 import com.teebay.appname.features.myProduct.viewModel.AddProductViewModel
 
@@ -30,7 +30,7 @@ class PriceInputFragment : Fragment() {
         val adapter = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_spinner_item,
-            listOf("Per day", "Per hour")
+            listOf(RentOption.hour.title, RentOption.day.title)
         ).also {
             it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         }
@@ -52,7 +52,12 @@ class PriceInputFragment : Fragment() {
 
         binding?.ddOptions?.setOnItemClickListener { parent, _, position, _ ->
             val selectedItem = parent.getItemAtPosition(position).toString()
-            viewModel.addRentOption(selectedItem)
+            for (option in RentOption.entries) {
+                if (option.title == selectedItem) {
+                    viewModel.addRentOption(option.name)
+                    break
+                }
+            }
         }
     }
 

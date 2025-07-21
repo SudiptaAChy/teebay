@@ -1,43 +1,49 @@
 package com.teebay.appname.utils
 
-import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
-import android.util.Base64
-import java.io.ByteArrayOutputStream
-import java.io.InputStream
+import android.webkit.MimeTypeMap
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.internal.platform.PlatformRegistry.applicationContext
+import java.io.File
+import java.io.FileOutputStream
 
 object ImageUtil {
-    fun bitmapToBase64(
-        bitmap: Bitmap,
-        format: Bitmap.CompressFormat = Bitmap.CompressFormat.JPEG,
-        quality: Int = 100
-    ): String {
-        val outputStream = ByteArrayOutputStream()
-        bitmap.compress(format, quality, outputStream)
-        val byteArray = outputStream.toByteArray()
-        return Base64.encodeToString(byteArray, Base64.DEFAULT)
+    fun uriToMultipart(uri: Uri, partName: String = "file"): MultipartBody.Part? {
+        val context = applicationContext
+        val contentResolver = context?.contentResolver
+        val inputStream = contentResolver?.openInputStream(uri) ?: return null
+
+        val mimeType = contentResolver.getType(uri) ?: return null
+        val extension = MimeTypeMap.getSingleton()
+            .getExtensionFromMimeType(mimeType) ?: "jpg"
+
+        val file = File.createTempFile("upload_", ".$extension", context.cacheDir)
+        file.outputStream().use { outputStream ->
+            inputStream.copyTo(outputStream)
+        }
+
+        val requestBody = file.asRequestBody(mimeType.toMediaTypeOrNull())
+        return MultipartBody.Part.createFormData(partName, file.name, requestBody)
     }
 
-    fun base64ToBitmap(base64Str: String): Bitmap? {
-        return try {
-            val decodedBytes = Base64.decode(base64Str, Base64.DEFAULT)
-            BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
-        } catch (e: IllegalArgumentException) {
-            null
+    fun bitmapToMultipart(bitmap: Bitmap, partName: String = "file", format: Bitmap.CompressFormat = Bitmap.CompressFormat.PNG): MultipartBody.Part {
+        val (extension, mimeType) = when (format) {
+            Bitmap.CompressFormat.JPEG -> "jpg" to "image/jpeg"
+            Bitmap.CompressFormat.WEBP -> "webp" to "image/webp"
+            else -> "png" to "image/png"
         }
-    }
+        val context = applicationContext
+        val file = File.createTempFile("upload_", ".$extension", context?.cacheDir)
+        val outputStream = FileOutputStream(file)
+        bitmap.compress(format, 100, outputStream)
+        outputStream.flush()
+        outputStream.close()
 
-    fun uriToBitmap(context: Context, uri: Uri): Bitmap? {
-        return try {
-            val inputStream: InputStream? = context.contentResolver.openInputStream(uri)
-            val bitmap = BitmapFactory.decodeStream(inputStream)
-            inputStream?.close()
-            bitmap
-        } catch (e: Exception) {
-            e.printStackTrace()
-            null
-        }
+        val requestBody = file.asRequestBody(mimeType.toMediaTypeOrNull())
+        return MultipartBody.Part.createFormData(partName, file.name, requestBody)
     }
 }
+

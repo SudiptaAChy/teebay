@@ -8,7 +8,7 @@ import com.teebay.appname.features.auth.model.LoginRequestModel
 import com.teebay.appname.features.auth.model.LoginResponseModel
 import com.teebay.appname.features.auth.repository.AuthRepository
 import com.teebay.appname.network.ResponseState
-import com.teebay.appname.utils.PrefKeys
+import com.teebay.appname.constants.PrefKeys
 import com.teebay.appname.utils.SecuredSharedPref
 import com.teebay.appname.utils.SharedPref
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -37,7 +37,7 @@ class LoginViewModel @Inject constructor(
 
     fun saveCredentials(data: LoginResponseModel) {
         data.user?.let { user ->
-            user.id?.let { securedPref.put(PrefKeys.ID.name, it) }
+            user.id?.let { securedPref.put(PrefKeys.ID.name, it.toString()) }
             user.email?.let { securedPref.put(PrefKeys.EMAIL.name, it) }
             user.password?.let { securedPref.put(PrefKeys.PASSWORD.name, it) }
             user.firstName?.let { pref.put(PrefKeys.FNAME.name, it) }

@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.teebay.appname.features.auth.model.User
-import com.teebay.appname.utils.PrefKeys
+import com.teebay.appname.constants.PrefKeys
 import com.teebay.appname.utils.SecuredSharedPref
 import com.teebay.appname.utils.SharedPref
 import dagger.hilt.android.lifecycle.HiltViewModel

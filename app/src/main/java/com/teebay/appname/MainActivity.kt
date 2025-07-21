@@ -8,7 +8,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.teebay.appname.features.auth.view.AuthActivity
 import com.teebay.appname.features.dashboard.DashboardActivity
-import com.teebay.appname.utils.PrefKeys
+import com.teebay.appname.constants.PrefKeys
 import com.teebay.appname.utils.SecuredSharedPref
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject

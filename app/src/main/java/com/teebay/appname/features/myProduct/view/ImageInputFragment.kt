@@ -2,7 +2,6 @@ package com.teebay.appname.features.myProduct.view
 
 import android.Manifest
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -28,10 +27,11 @@ class ImageInputFragment : Fragment() {
                     .load(it)
                     .into(view)
             }
-            val bitmap = ImageUtil.uriToBitmap(requireContext(), it)
-            bitmap?.let { viewModel.addImage(ImageUtil.bitmapToBase64(it)) }
+            ImageUtil.uriToMultipart(it)?.also {
+                viewModel.addImage(it)
+            }
         } ?: run {
-            showMessage("No image captured")
+            showMessage("No image selected")
         }
     }
 
@@ -54,7 +54,7 @@ class ImageInputFragment : Fragment() {
                     .load(it)
                     .into(view)
             }
-            viewModel.addImage(ImageUtil.bitmapToBase64(it))
+            viewModel.addImage(ImageUtil.bitmapToMultipart(it))
         } ?: run {
             showMessage("No image captured")
         }

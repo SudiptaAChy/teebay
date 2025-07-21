@@ -158,7 +158,7 @@ class AddProductFragment : BottomSheetDialogFragment() {
                     }
                 }
                 3 -> {
-                    if (viewModel.product.value?.productImage.isNullOrEmpty()) {
+                    if (viewModel.product.value?.productImage == null) {
                         showAlert("Please upload an image")
                         false
                     } else {

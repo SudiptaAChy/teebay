@@ -1,4 +1,4 @@
-package com.teebay.appname.utils
+package com.teebay.appname.constants
 
 enum class PrefKeys {
     ID,
