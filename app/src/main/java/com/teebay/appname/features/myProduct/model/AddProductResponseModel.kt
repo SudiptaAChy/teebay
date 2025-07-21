@@ -3,7 +3,7 @@ package com.teebay.appname.features.myProduct.model
 import com.google.gson.annotations.SerializedName
 
 data class AddProductResponseModel(
-    val categories: String? = null,
+    val categories: List<String>? = null,
     @SerializedName("date_posted")
     val datePosted: String? = null,
     val description: String? = null,

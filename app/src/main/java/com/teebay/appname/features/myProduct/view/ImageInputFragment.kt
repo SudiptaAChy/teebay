@@ -27,7 +27,7 @@ class ImageInputFragment : Fragment() {
                     .load(it)
                     .into(view)
             }
-            ImageUtil.uriToMultipart(it)?.also {
+            ImageUtil.uriToMultiPart(it)?.also {
                 viewModel.addImage(it)
             }
         } ?: run {
