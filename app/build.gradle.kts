@@ -4,7 +4,7 @@ plugins {
     alias(libs.plugins.google.services)
     alias(libs.plugins.dagger)
     kotlin("kapt")
-    kotlin("plugin.serialization") version "2.0.21"
+    kotlin("plugin.serialization") version "2.2.0"
 }
 
 android {
