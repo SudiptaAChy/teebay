@@ -38,6 +38,7 @@ class RegistrationViewModel @Inject constructor(
     }
 
     fun saveCredentials(data: RegisterResponseModel) {
+        data.id?.let { securedPref.put(PrefKeys.ID.name, it.toString()) }
         data.email?.let { securedPref.put(PrefKeys.EMAIL.name, it) }
         data.password?.let { securedPref.put(PrefKeys.PASSWORD.name, it) }
         data.firstName?.let { pref.put(PrefKeys.FNAME.name, it) }
