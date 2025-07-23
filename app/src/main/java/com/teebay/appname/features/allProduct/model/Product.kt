@@ -1,7 +1,9 @@
 package com.teebay.appname.features.allProduct.model
 
 import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Product(
     val categories: List<String>? = null,
     @SerializedName("date_posted")

@@ -57,7 +57,9 @@ class AllProductFragment : Fragment() {
                     binding?.rvProduct?.visibility = View.VISIBLE
 
                     val result = it.data as List<Product>
-                    productAdapter = ProductListAdapter(result)
+                    productAdapter = ProductListAdapter(result) { index ->
+                        val product = result[index]
+                    }
                     binding?.rvProduct?.adapter = productAdapter
                 }
             }

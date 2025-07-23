@@ -13,7 +13,7 @@
             android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Iphone 13 pro"
+            android:text="@string/select_title_of_your_product"
             android:textColor="@color/black"
             android:textSize="@dimen/_16sdp"
             android:textStyle="bold"/>
@@ -24,17 +24,16 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Category:"
+                android:text="@string/category"
                 android:textColor="@color/grey"
                 android:textSize="@dimen/_12sdp" />
             <TextView
                 android:id="@+id/tvCategory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Electronics"
                 android:textColor="@color/grey"
                 android:textSize="@dimen/_12sdp"
-                android:paddingStart="@dimen/_6sdp"/>
+                android:paddingHorizontal="@dimen/_6sdp"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"
@@ -42,17 +41,16 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Purchase price:"
+                android:text="@string/purchase_price_colon"
                 android:textColor="@color/grey"
                 android:textSize="@dimen/_12sdp" />
             <TextView
                 android:id="@+id/tvPurchasePrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="100"
                 android:textColor="@color/grey"
                 android:textSize="@dimen/_12sdp"
-                android:paddingStart="@dimen/_6sdp"/>
+                android:paddingHorizontal="@dimen/_6sdp"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"
@@ -61,14 +59,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Rent:"
+                android:text="@string/rent_colon"
                 android:textColor="@color/grey"
                 android:textSize="@dimen/_12sdp" />
             <TextView
                 android:id="@+id/tvRentPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="10"
                 android:textColor="@color/grey"
                 android:textSize="@dimen/_12sdp"
                 android:paddingStart="@dimen/_6sdp"/>
@@ -76,35 +73,34 @@
                 android:id="@+id/tvRentOption"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="10"
                 android:textColor="@color/grey"
                 android:textSize="@dimen/_12sdp"
-                android:paddingStart="@dimen/_4sdp"/>
+                android:paddingHorizontal="@dimen/_4sdp"/>
         </LinearLayout>
         <TextView
             android:id="@+id/tvDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="In good condition"
+            android:text="@string/description"
             android:textColor="@color/black"
             android:textSize="@dimen/_12sdp" />
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingVertical="@dimen/_6sdp">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Posted on"
+                android:text="@string/posted_on"
                 android:textColor="@color/grey"
                 android:textSize="@dimen/_12sdp" />
             <TextView
                 android:id="@+id/tvDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="21 july"
                 android:textColor="@color/grey"
                 android:textSize="@dimen/_12sdp"
-                android:paddingStart="@dimen/_6sdp"/>
+                android:paddingHorizontal="@dimen/_6sdp"/>
         </LinearLayout>
     </LinearLayout>
 

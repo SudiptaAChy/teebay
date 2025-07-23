@@ -39,7 +39,9 @@ class MyProductFragment : Fragment() {
         }
 
         val products = viewModel.fetchMyProducts()
-        productAdapter = ProductListAdapter(products)
+        productAdapter = ProductListAdapter(products) { index ->
+            //
+        }
         binding?.rvProduct?.adapter = productAdapter
     }
 

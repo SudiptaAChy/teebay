@@ -37,4 +37,9 @@
     <string name="upload_picture_camera">Take picture using camera</string>
     <string name="upload_picture_gallery">Upload picture from device</string>
     <string name="submit">Submit</string>
+    <string name="buy">Buy</string>
+    <string name="category">Category:</string>
+    <string name="purchase_price_colon">Purchase price:</string>
+    <string name="rent_colon">Rent:</string>
+    <string name="posted_on">Posted on</string>
 </resources>

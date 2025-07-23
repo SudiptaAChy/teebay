@@ -10,7 +10,10 @@ import com.teebay.appname.features.allProduct.model.Product
 import com.teebay.appname.utils.formatDate
 import com.teebay.appname.utils.toMoneySign
 
-class ProductListAdapter(private var products: List<Product>) : RecyclerView.Adapter<ProductListAdapter.ViewHolder>() {
+class ProductListAdapter(
+    private var products: List<Product>,
+    private val onItemClick: (Int) -> Unit,
+) : RecyclerView.Adapter<ProductListAdapter.ViewHolder>() {
     fun setData(products: List<Product>) {
         this.products = products
         notifyDataSetChanged()
@@ -32,6 +35,9 @@ class ProductListAdapter(private var products: List<Product>) : RecyclerView.Ada
             tvRentOption.text = "(${product.rentOption})"
             tvDescription.text = product.description
             tvDate.text = formatDate(product.datePosted.toString())
+        }
+        holder.itemView.setOnClickListener {
+            onItemClick(position)
         }
     }
 
