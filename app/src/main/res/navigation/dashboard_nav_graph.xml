@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/dashboard_nav_graph"
+    app:startDestination="@id/miAllProduct">
+    <fragment
+        android:id="@+id/miAllProduct"
+        android:name="com.teebay.appname.features.allProduct.view.AllProductFragment"
+        android:label="fragment_all_product"
+        tools:layout="@layout/fragment_all_product" >
+        <action
+            android:id="@+id/action_miAllProduct_to_productDetailsFragment"
+            app:destination="@id/productDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/miMyProduct"
+        android:name="com.teebay.appname.features.myProduct.view.MyProductFragment"
+        android:label="fragment_my_product"
+        tools:layout="@layout/fragment_my_product" />
+    <fragment
+        android:id="@+id/miProfile"
+        android:name="com.teebay.appname.features.profile.view.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/productDetailsFragment"
+        android:name="com.teebay.appname.features.productDetails.ProductDetailsFragment"
+        android:label="fragment_product_details"
+        tools:layout="@layout/fragment_product_details" />
+</navigation>

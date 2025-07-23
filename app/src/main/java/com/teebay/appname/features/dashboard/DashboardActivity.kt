@@ -5,21 +5,17 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.NavigationUI
 import com.teebay.appname.R
 import com.teebay.appname.databinding.ActivityDashboardBinding
-import com.teebay.appname.features.allProduct.view.AllProductFragment
-import com.teebay.appname.features.myProduct.view.MyProductFragment
-import com.teebay.appname.features.profile.view.ProfileFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class DashboardActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDashboardBinding
-
-    private val allProductFragment = AllProductFragment()
-    private val myProductFragment = MyProductFragment()
-    private val profileFragment = ProfileFragment()
+    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,25 +30,9 @@ class DashboardActivity : AppCompatActivity() {
             insets
         }
 
-        showFragment(allProductFragment)
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.dashboardNavHost) as NavHostFragment
+        navController = navHostFragment.navController
 
-        binding.bottomNav.setOnItemSelectedListener {
-            val fragment = when(it.itemId) {
-                R.id.miAllProduct -> allProductFragment
-                R.id.miMyProduct -> myProductFragment
-                R.id.miProfile -> profileFragment
-                else -> null
-            }
-
-            fragment?.let { showFragment(it) }
-
-            true
-        }
-    }
-
-    private fun showFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragContainer, fragment)
-            .commit()
+        NavigationUI.setupWithNavController(binding.bottomNav, navController)
     }
 }
