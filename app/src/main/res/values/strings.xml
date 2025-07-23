@@ -42,4 +42,8 @@
     <string name="purchase_price_colon">Purchase price:</string>
     <string name="rent_colon">Rent:</string>
     <string name="posted_on">Posted on</string>
+    <string name="product_image">product image</string>
+    <string name="from">From</string>
+    <string name="dd_mm_yyyy">dd/mm/yyyy</string>
+    <string name="to">To</string>
 </resources>

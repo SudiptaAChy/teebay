@@ -3,9 +3,12 @@ package com.teebay.appname.features.myProduct.service
 import com.teebay.appname.features.allProduct.model.Product
 import com.teebay.appname.features.myProduct.model.AddProductResponseModel
 import com.teebay.appname.features.myProduct.model.Category
+import com.teebay.appname.features.productDetails.model.PurchaseRequestModel
+import com.teebay.appname.features.productDetails.model.PurchaseResponseModel
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
@@ -30,4 +33,9 @@ interface ProductApiService {
 
     @GET("products/")
     suspend fun fetchtAllProducts(): Response<List<Product>>
+
+    @POST("transactions/purchases/")
+    suspend fun purchase(
+        @Body request: PurchaseRequestModel
+    ): Response<PurchaseResponseModel>
 }

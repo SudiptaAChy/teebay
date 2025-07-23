@@ -5,6 +5,8 @@ plugins {
     alias(libs.plugins.dagger)
     kotlin("kapt")
     kotlin("plugin.serialization") version "2.2.0"
+    id("androidx.navigation.safeargs.kotlin")
+    kotlin("plugin.parcelize")
 }
 
 android {
@@ -76,7 +78,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.livedata.ktx)
 
-    implementation("androidx.security:security-crypto:1.0.0-alpha02")
+    implementation(libs.androidx.security.crypto)
 
-    implementation("com.github.bumptech.glide:glide:4.16.0")
+    implementation(libs.glide)
 }

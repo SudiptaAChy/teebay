@@ -9,6 +9,7 @@ import com.teebay.appname.databinding.ProductItemViewBinding
 import com.teebay.appname.features.allProduct.model.Product
 import com.teebay.appname.utils.formatDate
 import com.teebay.appname.utils.toMoneySign
+import com.teebay.appname.utils.shortenText
 
 class ProductListAdapter(
     private var products: List<Product>,
@@ -33,7 +34,7 @@ class ProductListAdapter(
             tvPurchasePrice.text = product.purchasePrice.toMoneySign()
             tvRentPrice.text = product.rentPrice.toMoneySign()
             tvRentOption.text = "(${product.rentOption})"
-            tvDescription.text = product.description
+            tvDescription.text = product.description.shortenText()
             tvDate.text = formatDate(product.datePosted.toString())
         }
         holder.itemView.setOnClickListener {

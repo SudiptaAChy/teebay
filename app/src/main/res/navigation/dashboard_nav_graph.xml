@@ -25,7 +25,11 @@
         tools:layout="@layout/fragment_profile" />
     <fragment
         android:id="@+id/productDetailsFragment"
-        android:name="com.teebay.appname.features.productDetails.ProductDetailsFragment"
+        android:name="com.teebay.appname.features.productDetails.view.ProductDetailsFragment"
         android:label="fragment_product_details"
-        tools:layout="@layout/fragment_product_details" />
+        tools:layout="@layout/fragment_product_details" >
+        <argument
+            android:name="product"
+            app:argType="com.teebay.appname.features.allProduct.model.Product" />
+    </fragment>
 </navigation>

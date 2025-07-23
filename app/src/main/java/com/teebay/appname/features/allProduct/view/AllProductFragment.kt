@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.R
+import androidx.navigation.fragment.findNavController
 import com.teebay.appname.databinding.FragmentAllProductBinding
 import com.teebay.appname.features.allProduct.adapter.CategoryListAdapter
 import com.teebay.appname.features.allProduct.adapter.ProductListAdapter
@@ -59,6 +61,8 @@ class AllProductFragment : Fragment() {
                     val result = it.data as List<Product>
                     productAdapter = ProductListAdapter(result) { index ->
                         val product = result[index]
+                        val action = AllProductFragmentDirections.actionMiAllProductToProductDetailsFragment(product)
+                        findNavController().navigate(action)
                     }
                     binding?.rvProduct?.adapter = productAdapter
                 }

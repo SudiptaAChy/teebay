@@ -1,9 +1,10 @@
 package com.teebay.appname.features.allProduct.model
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import kotlinx.serialization.Serializable
+import kotlinx.parcelize.Parcelize
 
-@Serializable
+@Parcelize
 data class Product(
     val categories: List<String>? = null,
     @SerializedName("date_posted")
@@ -20,4 +21,4 @@ data class Product(
     val rentPrice: String? = null,
     val seller: Int? = null,
     val title: String? = null
-)
+): Parcelable

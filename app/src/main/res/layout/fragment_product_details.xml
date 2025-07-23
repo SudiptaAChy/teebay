@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".features.productDetails.ProductDetailsFragment">
+    tools:context=".features.productDetails.view.ProductDetailsFragment">
 
     <ScrollView
         android:id="@+id/main"
@@ -86,6 +86,11 @@
                     android:textSize="@dimen/_12sdp"
                     android:paddingHorizontal="@dimen/_4sdp"/>
             </LinearLayout>
+            <ImageView
+                android:id="@+id/ivProduct"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_160sdp"
+                android:contentDescription="@string/product_image"/>
             <TextView
                 android:id="@+id/tvDescription"
                 android:layout_width="wrap_content"
