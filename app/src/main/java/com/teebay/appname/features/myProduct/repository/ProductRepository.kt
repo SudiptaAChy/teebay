@@ -7,6 +7,8 @@ import com.teebay.appname.features.myProduct.model.Category
 import com.teebay.appname.features.myProduct.service.ProductApiService
 import com.teebay.appname.features.productDetails.model.PurchaseRequestModel
 import com.teebay.appname.features.productDetails.model.PurchaseResponseModel
+import com.teebay.appname.features.productDetails.model.RentRequestModel
+import com.teebay.appname.features.productDetails.model.RentResponseModel
 import com.teebay.appname.network.mapResult
 import com.teebay.appname.network.safeApiCall
 import okhttp3.MediaType.Companion.toMediaType
@@ -56,4 +58,7 @@ class ProductRepository @Inject constructor(
 
     suspend fun purchase(request: PurchaseRequestModel): Result<PurchaseResponseModel> =
         safeApiCall { apiService.purchase(request).mapResult() }
+
+    suspend fun rent(request: RentRequestModel): Result<RentResponseModel> =
+        safeApiCall { apiService.rent(request).mapResult() }
 }

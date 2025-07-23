@@ -2,6 +2,7 @@ package com.teebay.appname.features.productDetails.view
 
 import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -22,6 +23,9 @@ import com.teebay.appname.R
 import com.teebay.appname.databinding.DialogDatePickerBinding
 import com.teebay.appname.features.productDetails.viewModel.ProductDetailsViewModel
 import com.teebay.appname.network.ResponseState
+import com.teebay.appname.utils.formatDateToISO
+import com.teebay.appname.utils.formatDateToUI
+import com.teebay.appname.utils.isFromDateBeforeToDate
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Calendar
 
@@ -34,7 +38,7 @@ class ProductDetailsFragment : Fragment() {
     private val loadingDialog: AlertDialog by lazy {
         AlertDialog
             .Builder(requireContext())
-            .setView(LayoutInflater.from(requireContext()).inflate(R.layout.dialog_loading, null))
+            .setView(LayoutInflater.from(requireContext()).inflate(R.layout.dialog_loading, requireActivity().window.decorView as ViewGroup, false))
             .setCancelable(false)
             .create()
     }
@@ -100,6 +104,22 @@ class ProductDetailsFragment : Fragment() {
                 }
             }
         }
+
+        viewModel.rentState.observe(viewLifecycleOwner) {
+            when(it) {
+                is ResponseState.Error -> {
+                    hideLoaderDialog()
+                    showMessage(it.message)
+                }
+                ResponseState.Loading -> {
+                    showLoaderDialog()
+                }
+                is ResponseState.Success<*> -> {
+                    hideLoaderDialog()
+                    showMessage("Product rented successfully")
+                }
+            }
+        }
     }
 
     private fun showBuyDialog() {
@@ -131,8 +151,27 @@ class ProductDetailsFragment : Fragment() {
             val datePicker = DatePickerDialog(
                 requireContext(),
                 { _, year, month, day ->
-                    val date = "${day}/${month + 1}/$year"
-                    editText.setText(date)
+                    calendar.set(year, month, day)
+
+                    val timePicker = TimePickerDialog(
+                        requireContext(),
+                        { _, hour, minute ->
+                            calendar.set(Calendar.HOUR_OF_DAY, hour)
+                            calendar.set(Calendar.MINUTE, minute)
+                            calendar.set(Calendar.SECOND, 0)
+                            calendar.set(Calendar.MILLISECOND, 0)
+
+                            val date = calendar.time
+
+                            editText.setText(formatDateToUI(date))
+                            editText.tag = formatDateToISO(date)
+                        },
+                        calendar.get(Calendar.HOUR),
+                        calendar.get(Calendar.MINUTE),
+                        true
+                    )
+
+                    timePicker.show()
                 },
                 calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),
@@ -145,7 +184,19 @@ class ProductDetailsFragment : Fragment() {
         dialogBinding.etFromDate.setOnClickListener { dateSetListener(dialogBinding.etFromDate) }
 
         builder.setPositiveButton("Confirm Rent") { dialog, which ->
-            viewModel.rent()
+            val fromDate = dialogBinding.etFromDate.tag as? String
+            val toDate = dialogBinding.etToDate.tag as? String
+
+            if (fromDate != null && toDate != null) {
+                if (isFromDateBeforeToDate(fromDate, toDate)) {
+                    viewModel.rent(product?.id, product?.rentOption, fromDate, toDate)
+                } else {
+                    showMessage("From date should before to date")
+                }
+            } else {
+                showMessage("Please fill all date")
+            }
+
             dialog.dismiss()
         }
 

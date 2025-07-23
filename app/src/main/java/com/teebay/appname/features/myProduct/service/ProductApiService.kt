@@ -5,6 +5,8 @@ import com.teebay.appname.features.myProduct.model.AddProductResponseModel
 import com.teebay.appname.features.myProduct.model.Category
 import com.teebay.appname.features.productDetails.model.PurchaseRequestModel
 import com.teebay.appname.features.productDetails.model.PurchaseResponseModel
+import com.teebay.appname.features.productDetails.model.RentRequestModel
+import com.teebay.appname.features.productDetails.model.RentResponseModel
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
@@ -38,4 +40,9 @@ interface ProductApiService {
     suspend fun purchase(
         @Body request: PurchaseRequestModel
     ): Response<PurchaseResponseModel>
+
+    @POST("transactions/rentals/")
+    suspend fun rent(
+        @Body request: RentRequestModel
+    ): Response<RentResponseModel>
 }

@@ -1,9 +1,12 @@
 package com.teebay.appname.features.productDetails.model
 
+import com.google.gson.annotations.SerializedName
+
 data class PurchaseResponseModel(
     val buyer: Int?,
     val id: Int?,
     val product: Int?,
-    val purchase_date: String?,
+    @SerializedName("purchase_date")
+    val purchaseDate: String?,
     val seller: Int?
 )
