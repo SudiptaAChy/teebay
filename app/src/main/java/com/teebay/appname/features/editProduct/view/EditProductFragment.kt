@@ -165,6 +165,21 @@ class EditProductFragment : Fragment() {
                 }
             }
         }
+
+        viewModel.updateState.observe(viewLifecycleOwner) {
+            when(it) {
+                is ResponseState.Error -> {
+                    loadingDialog.dismiss()
+                    showMessage(it.message)
+                }
+                ResponseState.Loading -> { loadingDialog.show() }
+                is ResponseState.Success<*> -> {
+                    loadingDialog.dismiss()
+                    showMessage("Product updated successfully")
+                    findNavController().popBackStack()
+                }
+            }
+        }
     }
 
     private fun setListener() {
@@ -239,7 +254,7 @@ class EditProductFragment : Fragment() {
                     )
             }
 
-            btnUpdate.setOnClickListener {  }
+            btnUpdate.setOnClickListener { viewModel.updateProduct(product?.id) }
         }
     }
 

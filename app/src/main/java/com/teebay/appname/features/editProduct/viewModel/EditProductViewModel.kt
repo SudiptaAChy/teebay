@@ -93,19 +93,24 @@ class EditProductViewModel @Inject constructor(
             )
         }
     }
-    fun updateProduct() {
+
+    // TODO: Fix empty pid problem
+    fun updateProduct(
+        pid: Int?,
+    ) {
         val id = pref.get(PrefKeys.ID.name, null)?.toInt()
         val request = _product.value?.copy(seller = id?.toInt())
             ?: run {
                 _updateState.value = ResponseState.Error("Some field is missing!")
                 return
             }
+        _product.value?.copy(id = pid)
 
         _updateState.value = ResponseState.Loading
 
         viewModelScope.launch {
             val result = withContext(Dispatchers.IO) {
-                repository.postProduct(request)
+                repository.updateProduct(request)
             }
             _updateState.value = result.fold(
                 onSuccess = { ResponseState.Success(it) },

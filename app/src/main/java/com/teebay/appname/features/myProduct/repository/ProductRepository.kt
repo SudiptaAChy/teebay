@@ -65,4 +65,40 @@ class ProductRepository @Inject constructor(
 
     suspend fun deleteProduct(id: Int): Result<EmptyResponseModel> =
         safeApiCall { apiService.deleteProduct(id).mapResult() }
+
+    suspend fun updateProduct(
+        request: AddProductRequestModel
+    ): Result<AddProductResponseModel> {
+        val pid = request.id ?: return Result.failure(Exception("Can't find product id"))
+        val seller =
+            request.seller?.toString()?.toRequestBody("text/plain".toMediaType())
+                ?: return Result.failure(Exception("seller id is empty"))
+        val title =
+            request.title?.toRequestBody("text/plain".toMediaType()) ?: return Result.failure(Exception("title is empty"))
+        val description =
+            request.description?.toRequestBody("text/plain".toMediaType()) ?: return Result.failure(Exception("description is empty"))
+        val purchasePrice = request.purchasePrice.toString().toRequestBody("text/plain".toMediaType())
+        val rentPrice =
+            request.rentPrice?.toString()?.toRequestBody("text/plain".toMediaType())
+                ?: return Result.failure(Exception("rent price is empty"))
+        val rentOption =
+            request.rentOption?.toRequestBody("text/plain".toMediaType()) ?: return Result.failure(Exception("rent option is empty"))
+        val categories =
+            request.categories?.toRequestBody("text/plain".toMediaType()) ?: return Result.failure(Exception("category is empty"))
+        val image = request.productImage ?: return Result.failure(Exception("select an image"))
+
+        return safeApiCall {
+            apiService
+                .updateProduct(
+                    pid,
+                    seller,
+                    title,
+                    description,
+                    categories,
+                    image,
+                    purchasePrice,
+                    rentPrice,
+                    rentOption,).mapResult()
+        }
+    }
 }

@@ -58,7 +58,7 @@ interface ProductApiService {
 
     @Multipart
     @PATCH("products/{id}/")
-    suspend fun postProduct(
+    suspend fun updateProduct(
         @Path("id") id: Int,
         @Part("seller") seller: RequestBody,
         @Part("title") title: RequestBody,
