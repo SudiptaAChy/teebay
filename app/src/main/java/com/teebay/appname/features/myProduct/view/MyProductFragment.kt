@@ -7,10 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.teebay.appname.databinding.FragmentMyProductBinding
 import com.teebay.appname.features.allProduct.adapter.ProductListAdapter
 import com.teebay.appname.features.allProduct.model.Product
+import com.teebay.appname.features.allProduct.view.AllProductFragmentDirections
 import com.teebay.appname.features.allProduct.viewModel.ProductViewModel
 import com.teebay.appname.network.ResponseState
 import dagger.hilt.android.AndroidEntryPoint
@@ -40,7 +42,9 @@ class MyProductFragment : Fragment() {
 
         val products = viewModel.fetchMyProducts()
         productAdapter = ProductListAdapter(products) { index ->
-            //
+            val product = products[index]
+            val action = MyProductFragmentDirections.actionMiMyProductToEditProductFragment(product)
+            findNavController().navigate(action)
         }
         binding?.rvProduct?.adapter = productAdapter
     }

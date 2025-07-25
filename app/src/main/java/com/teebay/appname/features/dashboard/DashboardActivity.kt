@@ -44,7 +44,8 @@ class DashboardActivity : AppCompatActivity() {
 
         navController.addOnDestinationChangedListener { _,destination,_ ->
             when(destination.id) {
-                R.id.productDetailsFragment -> binding.bottomNav.visibility = View.GONE
+                R.id.productDetailsFragment,
+                R.id.editProductFragment -> binding.bottomNav.visibility = View.GONE
                 else -> binding.bottomNav.visibility = View.VISIBLE
             }
         }

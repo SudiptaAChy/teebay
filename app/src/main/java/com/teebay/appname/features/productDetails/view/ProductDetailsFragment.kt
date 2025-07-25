@@ -17,7 +17,6 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.teebay.appname.databinding.FragmentProductDetailsBinding
 import com.teebay.appname.features.allProduct.model.Product
-import com.teebay.appname.utils.formatDate
 import com.teebay.appname.utils.toMoneySign
 import com.teebay.appname.R
 import com.teebay.appname.databinding.DialogDatePickerBinding
@@ -26,6 +25,9 @@ import com.teebay.appname.network.ResponseState
 import com.teebay.appname.utils.formatDateToISO
 import com.teebay.appname.utils.formatDateToUI
 import com.teebay.appname.utils.isFromDateBeforeToDate
+import com.teebay.appname.utils.showCustomDialog
+import com.teebay.appname.utils.showLoaderDialog
+import com.teebay.appname.utils.showSimpleDialog
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Calendar
 
@@ -36,11 +38,7 @@ class ProductDetailsFragment : Fragment() {
     private var product: Product? = null
     private val viewModel: ProductDetailsViewModel by viewModels()
     private val loadingDialog: AlertDialog by lazy {
-        AlertDialog
-            .Builder(requireContext())
-            .setView(LayoutInflater.from(requireContext()).inflate(R.layout.dialog_loading, requireActivity().window.decorView as ViewGroup, false))
-            .setCancelable(false)
-            .create()
+        requireContext().showLoaderDialog(requireActivity())
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -123,89 +121,73 @@ class ProductDetailsFragment : Fragment() {
     }
 
     private fun showBuyDialog() {
-        AlertDialog
-            .Builder(requireContext())
-            .setMessage("Are you sure you want to buy this product?")
-            .setPositiveButton("Yes") { dialog, _ ->
-                viewModel.purchase(product?.id)
-                dialog.dismiss()
-            }
-            .setNegativeButton("No") { dialog, _ ->
-                dialog.dismiss()
-            }
-            .setCancelable(false)
-            .create()
-            .show()
+        requireContext().showSimpleDialog(
+            message = "Are you sure you want to buy this product?",
+            onPositiveClick = { viewModel.purchase(product?.id) }
+        )
     }
 
     private fun showRentDialog() {
-        val builder = AlertDialog
-            .Builder(requireContext())
-            .setCancelable(false)
-
         val dialogBinding = DialogDatePickerBinding.inflate(layoutInflater)
-        builder.setView(dialogBinding.root)
 
-        val dateSetListener = { editText: EditText ->
-            val calendar = Calendar.getInstance()
-            val datePicker = DatePickerDialog(
-                requireContext(),
-                { _, year, month, day ->
-                    calendar.set(year, month, day)
+        requireContext()
+            .showCustomDialog(
+                view = dialogBinding.root,
+                onViewCreated = {
+                    val dateSetListener = { editText: EditText ->
+                        val calendar = Calendar.getInstance()
+                        val datePicker = DatePickerDialog(
+                            requireContext(),
+                            { _, year, month, day ->
+                                calendar.set(year, month, day)
 
-                    val timePicker = TimePickerDialog(
-                        requireContext(),
-                        { _, hour, minute ->
-                            calendar.set(Calendar.HOUR_OF_DAY, hour)
-                            calendar.set(Calendar.MINUTE, minute)
-                            calendar.set(Calendar.SECOND, 0)
-                            calendar.set(Calendar.MILLISECOND, 0)
+                                val timePicker = TimePickerDialog(
+                                    requireContext(),
+                                    { _, hour, minute ->
+                                        calendar.set(Calendar.HOUR_OF_DAY, hour)
+                                        calendar.set(Calendar.MINUTE, minute)
+                                        calendar.set(Calendar.SECOND, 0)
+                                        calendar.set(Calendar.MILLISECOND, 0)
 
-                            val date = calendar.time
+                                        val date = calendar.time
 
-                            editText.setText(formatDateToUI(date))
-                            editText.tag = formatDateToISO(date)
-                        },
-                        calendar.get(Calendar.HOUR),
-                        calendar.get(Calendar.MINUTE),
-                        true
-                    )
+                                        editText.setText(formatDateToUI(date))
+                                        editText.tag = formatDateToISO(date)
+                                    },
+                                    calendar.get(Calendar.HOUR),
+                                    calendar.get(Calendar.MINUTE),
+                                    true
+                                )
 
-                    timePicker.show()
+                                timePicker.show()
+                            },
+                            calendar.get(Calendar.YEAR),
+                            calendar.get(Calendar.MONTH),
+                            calendar.get(Calendar.DAY_OF_MONTH)
+                        )
+                        datePicker.show()
+                    }
+
+                    dialogBinding.etToDate.setOnClickListener { dateSetListener(dialogBinding.etToDate) }
+                    dialogBinding.etFromDate.setOnClickListener { dateSetListener(dialogBinding.etFromDate) }
                 },
-                calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH)
+                positiveBtnLabel = "Confirm Rent",
+                negativeBtnLabel = "Back",
+                onPositiveClick = {
+                    val fromDate = dialogBinding.etFromDate.tag as? String
+                    val toDate = dialogBinding.etToDate.tag as? String
+
+                    if (fromDate != null && toDate != null) {
+                        if (isFromDateBeforeToDate(fromDate, toDate)) {
+                            viewModel.rent(product?.id, product?.rentOption, fromDate, toDate)
+                        } else {
+                            showMessage("From date should before to date")
+                        }
+                    } else {
+                        showMessage("Please fill all date")
+                    }
+                },
             )
-            datePicker.show()
-        }
-
-        dialogBinding.etToDate.setOnClickListener { dateSetListener(dialogBinding.etToDate) }
-        dialogBinding.etFromDate.setOnClickListener { dateSetListener(dialogBinding.etFromDate) }
-
-        builder.setPositiveButton("Confirm Rent") { dialog, which ->
-            val fromDate = dialogBinding.etFromDate.tag as? String
-            val toDate = dialogBinding.etToDate.tag as? String
-
-            if (fromDate != null && toDate != null) {
-                if (isFromDateBeforeToDate(fromDate, toDate)) {
-                    viewModel.rent(product?.id, product?.rentOption, fromDate, toDate)
-                } else {
-                    showMessage("From date should before to date")
-                }
-            } else {
-                showMessage("Please fill all date")
-            }
-
-            dialog.dismiss()
-        }
-
-        builder.setNegativeButton("Back") { dialog, _ ->
-            dialog.dismiss()
-        }
-
-        builder
-            .create()
             .show()
     }
 

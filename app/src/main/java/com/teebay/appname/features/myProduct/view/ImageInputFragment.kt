@@ -85,20 +85,11 @@ class ImageInputFragment : Fragment() {
     }
 
     private fun checkCameraPermissionAndLaunch() {
-        when {
-            ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) ==
-                    PackageManager.PERMISSION_GRANTED -> {
-                takePicturePreviewLauncher.launch(null)
-            }
-
-            shouldShowRequestPermissionRationale(Manifest.permission.CAMERA) -> {
-                showMessage("Camera permission is needed to take photos")
-                requestPermissionLauncher.launch(Manifest.permission.CAMERA)
-            }
-
-            else -> {
-                requestPermissionLauncher.launch(Manifest.permission.CAMERA)
-            }
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) ==
+            PackageManager.PERMISSION_GRANTED) {
+            takePicturePreviewLauncher.launch(null)
+        } else {
+            requestPermissionLauncher.launch(Manifest.permission.CAMERA)
         }
     }
 

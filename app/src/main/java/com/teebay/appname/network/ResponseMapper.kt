@@ -1,6 +1,7 @@
 package com.teebay.appname.network
 
 import com.google.gson.Gson
+import com.teebay.appname.features.allProduct.model.Product
 import retrofit2.Response
 
 fun <T> Response<T>.mapResult(): Result<T> {
@@ -8,7 +9,7 @@ fun <T> Response<T>.mapResult(): Result<T> {
         val data = this.body()
         return if(data != null) Result.success(data)
         else {
-            Result.failure(Exception("Empty response body"))
+            Result.success(EmptyResponseModel() as T)
         }
     } else {
         val errorResponse = this.parseError<ErrorResponseModel>()

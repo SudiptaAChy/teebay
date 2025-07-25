@@ -46,4 +46,10 @@
     <string name="from">From</string>
     <string name="dd_mm_yyyy">dd/mm/yyyy</string>
     <string name="to">To</string>
+    <string name="update_product">Update Product</string>
+    <string name="delete_product">Delete Product</string>
+    <string name="title">Title</string>
+    <string name="rent_option">Rent Option</string>
+    <string name="upload_image">Upload Image</string>
+    <string name="wait_until_making_this_request">Wait until making this request</string>
 </resources>
