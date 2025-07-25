@@ -1,11 +1,11 @@
 package com.teebay.appname.features.auth.view
 
-import android.content.Intent
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -16,6 +16,7 @@ import com.teebay.appname.features.auth.model.LoginResponseModel
 import com.teebay.appname.features.auth.viewModel.LoginViewModel
 import com.teebay.appname.features.dashboard.DashboardActivity
 import com.teebay.appname.network.ResponseState
+import com.teebay.appname.utils.BiometricService
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -34,8 +35,19 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setUI()
         setClickListener()
         setObserver()
+    }
+
+    private fun setUI() {
+        if (!viewModel.showBiometric()) {
+            binding?.btnBiometric?.apply {
+                isEnabled = false
+                iconTint = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.grey))
+                alpha = 0.5f
+            }
+        }
     }
 
     private fun setClickListener() {
@@ -47,12 +59,14 @@ class LoginFragment : Fragment() {
                     (requireActivity() as AuthActivity).showMessage("Please fill all the input field")
                     return@setOnClickListener
                 }
-                viewModel.loginUser(LoginRequestModel(email = email, password = password, fcmToken = null))
+                viewModel.loginUser(email, password)
             }
 
             tvSignup.setOnClickListener {
                 findNavController().navigate(R.id.action_loginFragment_to_registrationFragment)
             }
+
+            btnBiometric.setOnClickListener { authenticateWithBiometric() }
         }
     }
 
@@ -74,6 +88,21 @@ class LoginFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun authenticateWithBiometric() {
+        val availability = BiometricService.isBiometricAvailable(requireContext())
+
+        if (!availability.first) {
+            BiometricService.promptEnrollBiometric(requireContext())
+            (requireActivity() as AuthActivity).showMessage(availability.second)
+            return
+        }
+
+        BiometricService.authenticate (
+            activity = requireActivity(),
+            onSuccess = { viewModel.loginInBiometric() }
+        )
     }
 
     private fun showLoader() {

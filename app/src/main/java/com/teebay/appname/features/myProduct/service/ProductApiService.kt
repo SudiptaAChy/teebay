@@ -55,7 +55,6 @@ interface ProductApiService {
         @Path("id") id: Int
     ): Response<EmptyResponseModel>
 
-
     @Multipart
     @PATCH("products/{id}/")
     suspend fun updateProduct(

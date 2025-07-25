@@ -40,7 +40,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/password"
-        android:paddingBottom="@dimen/_6sdp">
+        android:paddingBottom="@dimen/_6sdp"
+        app:endIconMode="password_toggle">
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etPassword"
             android:layout_width="match_parent"
@@ -59,6 +60,7 @@
         android:textSize="@dimen/_16sdp" />
 
     <LinearLayout
+        android:id="@+id/llSignup"
         app:layout_constraintTop_toBottomOf="@id/btnLogin"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -91,5 +93,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:cornerRadius="@dimen/_2sdp"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnBiometric"
+        app:layout_constraintTop_toBottomOf="@id/llSignup"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:icon="@drawable/ic_fingerprint"
+        app:iconSize="@dimen/_36sdp"
+        app:cornerRadius="@dimen/_8sdp"
+        app:iconTint="@color/url"
+        style="@style/Widget.Material3.Button.IconButton.Outlined"
+        android:layout_marginTop="@dimen/_8sdp"
+        app:iconGravity="textStart" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

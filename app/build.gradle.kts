@@ -81,4 +81,6 @@ dependencies {
     implementation(libs.androidx.security.crypto)
 
     implementation(libs.glide)
+
+    implementation(libs.androidx.biometric)
 }

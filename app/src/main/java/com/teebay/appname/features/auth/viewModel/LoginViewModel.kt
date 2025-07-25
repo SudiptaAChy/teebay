@@ -24,7 +24,8 @@ class LoginViewModel @Inject constructor(
     private val _state = MutableLiveData<ResponseState<Any>>()
     val state: LiveData<ResponseState<Any>> = _state
 
-    fun loginUser(request: LoginRequestModel) {
+    fun loginUser(email: String, password: String) {
+        val request = LoginRequestModel(email = email, password = password, fcmToken = null)
         _state.value = ResponseState.Loading
         viewModelScope.launch {
             val result = repository.login(request)
@@ -33,6 +34,18 @@ class LoginViewModel @Inject constructor(
                 onFailure = { ResponseState.Error(it.message ?: "unknown error") }
             )
         }
+    }
+
+    fun loginInBiometric() {
+        val email = securedPref.get(PrefKeys.EMAIL.name) ?: return
+        val password = securedPref.get(PrefKeys.PASSWORD.name) ?: return
+        loginUser(email, password)
+    }
+
+    fun showBiometric(): Boolean {
+        securedPref.get(PrefKeys.EMAIL.name) ?: return false
+        securedPref.get(PrefKeys.PASSWORD.name) ?: return false
+        return true
     }
 
     fun saveCredentials(data: LoginResponseModel) {
