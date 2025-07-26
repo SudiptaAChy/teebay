@@ -85,7 +85,7 @@ class ProductRepository @Inject constructor(
             request.rentOption?.toRequestBody("text/plain".toMediaType()) ?: return Result.failure(Exception("rent option is empty"))
         val categories =
             request.categories?.toRequestBody("text/plain".toMediaType()) ?: return Result.failure(Exception("category is empty"))
-        val image = request.productImage ?: return Result.failure(Exception("select an image"))
+        val image = request.productImage
 
         return safeApiCall {
             apiService

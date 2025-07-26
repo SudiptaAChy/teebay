@@ -63,7 +63,7 @@ interface ProductApiService {
         @Part("title") title: RequestBody,
         @Part("description") description: RequestBody,
         @Part("categories") categories: RequestBody,
-        @Part product_image: MultipartBody.Part,
+        @Part product_image: MultipartBody.Part?,
         @Part("purchase_price") purchasePrice: RequestBody,
         @Part("rent_price") rentPrice: RequestBody,
         @Part("rent_option") rentOption: RequestBody,

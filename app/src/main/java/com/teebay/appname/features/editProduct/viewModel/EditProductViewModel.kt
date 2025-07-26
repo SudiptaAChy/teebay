@@ -4,23 +4,20 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.teebay.appname.constants.PrefKeys
+import com.teebay.appname.features.allProduct.model.Product
 import com.teebay.appname.features.myProduct.model.AddProductRequestModel
 import com.teebay.appname.features.myProduct.repository.ProductRepository
 import com.teebay.appname.network.ResponseState
-import com.teebay.appname.utils.SecuredSharedPref
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.MultipartBody
 import javax.inject.Inject
-import kotlin.text.toInt
 
 @HiltViewModel
 class EditProductViewModel @Inject constructor(
     private val repository: ProductRepository,
-    private val pref: SecuredSharedPref
 ): ViewModel() {
     private val _product = MutableLiveData(AddProductRequestModel())
 
@@ -94,20 +91,28 @@ class EditProductViewModel @Inject constructor(
         }
     }
 
-    // TODO: Fix empty pid problem
-    fun updateProduct(
-        pid: Int?,
-    ) {
-        val id = pref.get(PrefKeys.ID.name, null)?.toInt()
-        val request = _product.value?.copy(seller = id?.toInt())
-            ?: run {
-                _updateState.value = ResponseState.Error("Some field is missing!")
-                return
-            }
-        _product.value?.copy(id = pid)
+    fun updateRequestModel(request: Product?) {
+        request?.let {
+            val newProduct = _product.value?.copy(
+                id = it.id,
+                seller = it.seller,
+                title = it.title,
+                description = it.description,
+                categories = it.categories?.first(),
+                purchasePrice = it.purchasePrice,
+                rentPrice = it.rentPrice,
+                rentOption = it.rentOption,
+            )
+            newProduct?.let { _product.value = it }
+        }
+    }
 
+    fun updateProduct() {
+        val request = _product.value ?: run {
+            _updateState.value = ResponseState.Error("Invalid request")
+            return
+        }
         _updateState.value = ResponseState.Loading
-
         viewModelScope.launch {
             val result = withContext(Dispatchers.IO) {
                 repository.updateProduct(request)

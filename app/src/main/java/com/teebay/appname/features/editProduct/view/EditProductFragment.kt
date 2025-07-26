@@ -88,6 +88,7 @@ class EditProductFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         product = args.product
+        viewModel.updateRequestModel(product)
     }
 
     override fun onCreateView(
@@ -254,7 +255,7 @@ class EditProductFragment : Fragment() {
                     )
             }
 
-            btnUpdate.setOnClickListener { viewModel.updateProduct(product?.id) }
+            btnUpdate.setOnClickListener { viewModel.updateProduct() }
         }
     }
 

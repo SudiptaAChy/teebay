@@ -25,8 +25,6 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var securedPref: SecuredSharedPref
-    @Inject
-    lateinit var pref: SharedPref
 
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission(),
@@ -80,11 +78,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initUI() {
-        val fName = securedPref.get(PrefKeys.FNAME.name, null)
-        val lName = securedPref.get(PrefKeys.LNAME.name, null)
-        val address = securedPref.get(PrefKeys.ADDRESS.name, null)
+        val email = securedPref.get(PrefKeys.EMAIL.name, null)
+        val password = securedPref.get(PrefKeys.PASSWORD.name, null)
+        val id = securedPref.get(PrefKeys.ID.name, null)
 
-        if (fName==null && lName==null && address==null) {
+        if (email.isNullOrEmpty() || password.isNullOrEmpty() || id.isNullOrEmpty()) {
             Intent(this, AuthActivity::class.java).also {
                 startActivity(it)
                 finish()
