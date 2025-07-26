@@ -12,19 +12,21 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import com.teebay.appname.features.auth.view.AuthActivity
 import com.teebay.appname.features.dashboard.DashboardActivity
 import com.teebay.appname.constants.PrefKeys
 import com.teebay.appname.utils.SecuredSharedPref
+import com.teebay.appname.utils.SharedPref
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     @Inject
-    lateinit var pref: SecuredSharedPref
+    lateinit var securedPref: SecuredSharedPref
+    @Inject
+    lateinit var pref: SharedPref
 
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission(),
@@ -60,7 +62,7 @@ class MainActivity : AppCompatActivity() {
 
             val token = task.result
 
-            pref.put(PrefKeys.FCM.name, token)
+            securedPref.put(PrefKeys.FCM.name, token)
         }
     }
 
@@ -78,10 +80,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initUI() {
-        val email = pref.get(PrefKeys.EMAIL.name, null)
-        val password = pref.get(PrefKeys.PASSWORD.name, null)
+        val fName = securedPref.get(PrefKeys.FNAME.name, null)
+        val lName = securedPref.get(PrefKeys.LNAME.name, null)
+        val address = securedPref.get(PrefKeys.ADDRESS.name, null)
 
-        if (email.isNullOrEmpty() || password.isNullOrEmpty()) {
+        if (fName==null && lName==null && address==null) {
             Intent(this, AuthActivity::class.java).also {
                 startActivity(it)
                 finish()

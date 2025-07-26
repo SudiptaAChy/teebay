@@ -37,7 +37,6 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun logout() {
-        securedPref.clear()
         pref.clear()
     }
 }

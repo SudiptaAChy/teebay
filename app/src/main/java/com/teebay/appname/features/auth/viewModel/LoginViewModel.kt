@@ -44,9 +44,7 @@ class LoginViewModel @Inject constructor(
     }
 
     fun showBiometric(): Boolean {
-        securedPref.get(PrefKeys.EMAIL.name) ?: return false
-        securedPref.get(PrefKeys.PASSWORD.name) ?: return false
-        return true
+        return securedPref.contains(PrefKeys.EMAIL.name) && securedPref.contains(PrefKeys.PASSWORD.name)
     }
 
     fun saveCredentials(data: LoginResponseModel) {

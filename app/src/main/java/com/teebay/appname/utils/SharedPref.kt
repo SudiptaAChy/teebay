@@ -12,7 +12,7 @@ class SharedPref @Inject constructor(
     @ApplicationContext context: Context
 ) {
     private val pref: SharedPreferences =
-        context.getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE)
+        context.getSharedPreferences("SharedPrefs", Context.MODE_PRIVATE)
 
     fun put(key: String, value: String) = pref.edit { putString(key, value) }
 
