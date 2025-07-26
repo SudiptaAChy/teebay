@@ -7,4 +7,5 @@ enum class PrefKeys {
     FNAME,
     LNAME,
     ADDRESS,
+    FCM,
 }

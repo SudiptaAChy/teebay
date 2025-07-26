@@ -25,7 +25,8 @@ class LoginViewModel @Inject constructor(
     val state: LiveData<ResponseState<Any>> = _state
 
     fun loginUser(email: String, password: String) {
-        val request = LoginRequestModel(email = email, password = password, fcmToken = null)
+        val fcm = securedPref.get(PrefKeys.FCM.name, null)
+        val request = LoginRequestModel(email = email, password = password, fcmToken = fcm)
         _state.value = ResponseState.Loading
         viewModelScope.launch {
             val result = repository.login(request)

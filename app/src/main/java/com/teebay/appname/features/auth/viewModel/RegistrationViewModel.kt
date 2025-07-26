@@ -27,6 +27,8 @@ class RegistrationViewModel @Inject constructor(
     fun registerUser(
         request: RegisterRequestModel
     ) {
+        val fcm = securedPref.get(PrefKeys.FCM.name, null)
+        val request = request.copy(firebaseConsoleManagerToken = fcm)
         _state.value = ResponseState.Loading
         viewModelScope.launch {
             val result = repository.register(request)

@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import com.teebay.appname.MainActivity
 import com.teebay.appname.databinding.FragmentProfileBinding
 import com.teebay.appname.features.auth.view.AuthActivity
 import com.teebay.appname.features.profile.viewModel.ProfileViewModel
@@ -32,7 +33,7 @@ class ProfileFragment : Fragment() {
         setObserver()
         binding?.btnLogout?.setOnClickListener {
             viewModel.logout()
-            val intent = Intent(requireContext(), AuthActivity::class.java).apply {
+            val intent = Intent(requireContext(), MainActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             }
             startActivity(intent)
