@@ -38,7 +38,12 @@ interface ProductApiService {
     suspend fun fetchCategories(): Response<List<Category>>
 
     @GET("products/")
-    suspend fun fetchtAllProducts(): Response<List<Product>>
+    suspend fun fetchAllProducts(): Response<List<Product>>
+
+    @GET("products/{id}/")
+    suspend fun fetchProduct(
+        @Path("id") id: Int
+    ): Response<Product>
 
     @POST("transactions/purchases/")
     suspend fun purchase(

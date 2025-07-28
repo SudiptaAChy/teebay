@@ -45,4 +45,9 @@
             android:name="product"
             app:argType="com.teebay.appname.features.allProduct.model.Product" />
     </fragment>
+    <fragment
+        android:id="@+id/miMyOrders"
+        android:name="com.teebay.appname.features.myOrders.view.MyOrdersFragment"
+        android:label="fragment_my_orders"
+        tools:layout="@layout/fragment_my_orders" />
 </navigation>

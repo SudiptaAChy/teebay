@@ -1,6 +1,7 @@
 package com.teebay.appname.di
 
 import com.teebay.appname.features.auth.service.AuthApiService
+import com.teebay.appname.features.myOrders.service.MyOrdersApiService
 import com.teebay.appname.features.myProduct.service.ProductApiService
 import dagger.Module
 import dagger.Provides
@@ -17,7 +18,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 class NetworkModule {
     @Provides
-    fun provideBaseUrl() = "http://192.168.0.101:8000/api/"
+    fun provideBaseUrl() = "http://192.168.0.105:8000/api/"
 
     @Provides
     @Singleton
@@ -56,4 +57,9 @@ class NetworkModule {
     @Provides
     fun providesProductApi(retrofit: Retrofit): ProductApiService =
         retrofit.create(ProductApiService::class.java)
+
+    @Singleton
+    @Provides
+    fun providesMyOrdersApi(retrofit: Retrofit): MyOrdersApiService =
+        retrofit.create(MyOrdersApiService::class.java)
 }

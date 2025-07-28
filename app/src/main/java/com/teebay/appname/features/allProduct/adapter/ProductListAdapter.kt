@@ -13,7 +13,7 @@ import com.teebay.appname.utils.shortenText
 
 class ProductListAdapter(
     private var products: List<Product>,
-    private val onItemClick: (Int) -> Unit,
+    private val onItemClick: ((Int) -> Unit)? = null,
 ) : RecyclerView.Adapter<ProductListAdapter.ViewHolder>() {
     fun setData(products: List<Product>) {
         this.products = products
@@ -38,7 +38,7 @@ class ProductListAdapter(
             tvDate.text = formatDate(product.datePosted.toString())
         }
         holder.itemView.setOnClickListener {
-            onItemClick(position)
+            onItemClick?.invoke(position)
         }
     }
 

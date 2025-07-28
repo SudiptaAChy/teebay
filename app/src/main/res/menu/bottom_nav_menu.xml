@@ -11,6 +11,11 @@
         android:title="@string/my_product" />
 
     <item
+        android:id="@+id/miMyOrders"
+        android:icon="@drawable/ic_orders"
+        android:title="@string/my_orders" />
+
+    <item
         android:id="@+id/miProfile"
         android:icon="@drawable/ic_profile"
         android:title="@string/profile" />

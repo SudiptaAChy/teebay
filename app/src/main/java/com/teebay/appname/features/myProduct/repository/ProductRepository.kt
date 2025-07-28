@@ -55,7 +55,10 @@ class ProductRepository @Inject constructor(
         safeApiCall { apiService.fetchCategories().mapResult() }
 
     suspend fun fetchAllProducts(): Result<List<Product>> =
-        safeApiCall { apiService.fetchtAllProducts().mapResult() }
+        safeApiCall { apiService.fetchAllProducts().mapResult() }
+
+    suspend fun fetchProduct(id: Int): Result<Product> =
+        safeApiCall { apiService.fetchProduct(id).mapResult() }
 
     suspend fun purchase(request: PurchaseRequestModel): Result<PurchaseResponseModel> =
         safeApiCall { apiService.purchase(request).mapResult() }

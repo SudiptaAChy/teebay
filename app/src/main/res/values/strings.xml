@@ -52,4 +52,7 @@
     <string name="rent_option">Rent Option</string>
     <string name="upload_image">Upload Image</string>
     <string name="wait_until_making_this_request">Wait until making this request</string>
+    <string name="my_orders">My Orders</string>
+    <string name="purchased">Purchased</string>
+    <string name="no_product_found">No Product Found!!</string>
 </resources>
