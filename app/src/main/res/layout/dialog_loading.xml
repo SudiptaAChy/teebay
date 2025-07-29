@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:text="@string/wait_until_making_this_request"
         android:textColor="@color/black"
-        android:textSize="@dimen/_16sdp"
+        android:textSize="@dimen/_12sdp"
         android:paddingHorizontal="@dimen/_6sdp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -40,7 +40,7 @@ class ProductDetailsViewModel @Inject constructor(
         _purchaseState.value = ResponseState.Loading
 
         viewModelScope.launch {
-            val request = PurchaseRequestModel(pid, uid.toInt())
+            val request = PurchaseRequestModel(uid.toInt(), pid)
             val result = withContext(Dispatchers.IO) {
                 repository.purchase(request)
             }
