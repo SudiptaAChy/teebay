@@ -50,6 +50,7 @@
     <string name="delete_product">Delete Product</string>
     <string name="title">Title</string>
     <string name="rent_option">Rent Option</string>
+    <string name="rent_option_display">(%1$s)</string>
     <string name="upload_image">Upload Image</string>
     <string name="wait_until_making_this_request">Wait until making this request</string>
     <string name="my_orders">My Orders</string>

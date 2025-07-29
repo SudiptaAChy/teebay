@@ -69,7 +69,7 @@ class ProductDetailsFragment : Fragment() {
             tvCategory.text = product?.categories?.first() ?: ""
             tvPurchasePrice.text = product?.purchasePrice.toMoneySign()
             tvRentPrice.text = product?.rentPrice.toMoneySign()
-            tvRentOption.text = "(${product?.rentOption ?: ""})"
+            tvRentOption.text = getString(R.string.rent_option_display, product?.rentOption ?: "")
             tvDescription.text = product?.description ?: ""
             Glide.with(requireContext())
                 .load(product?.productImage)

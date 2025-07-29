@@ -7,9 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.teebay.appname.constants.PrefKeys
 import com.teebay.appname.features.myProduct.repository.ProductRepository
 import com.teebay.appname.features.productDetails.model.PurchaseRequestModel
-import com.teebay.appname.features.productDetails.model.PurchaseResponseModel
 import com.teebay.appname.features.productDetails.model.RentRequestModel
-import com.teebay.appname.features.productDetails.model.RentResponseModel
 import com.teebay.appname.network.ResponseState
 import com.teebay.appname.utils.SecuredSharedPref
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -28,6 +26,9 @@ class ProductDetailsViewModel @Inject constructor(
 
     private val _rentState = MutableLiveData<ResponseState<Any>>()
     val rentState: LiveData<ResponseState<Any>> = _rentState
+
+    private val _productState = MutableLiveData<ResponseState<Any>>()
+    val productState: LiveData<ResponseState<Any>> = _productState
 
     fun purchase(pid: Int?) {
         val pid = pid ?: return
@@ -71,6 +72,20 @@ class ProductDetailsViewModel @Inject constructor(
                 repository.rent(request)
             }
             _rentState.value = result.fold(
+                onSuccess = { ResponseState.Success(it) },
+                onFailure = { ResponseState.Error(it.message ?: "unknown error") }
+            )
+        }
+    }
+
+    fun fetchProduct(pid: Int) {
+        _productState.value = ResponseState.Loading
+
+        viewModelScope.launch {
+            val result = withContext(Dispatchers.IO) {
+                repository.fetchProduct(pid)
+            }
+            _productState.value = result.fold(
                 onSuccess = { ResponseState.Success(it) },
                 onFailure = { ResponseState.Error(it.message ?: "unknown error") }
             )
