@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.R
 import androidx.navigation.fragment.findNavController
 import com.teebay.appname.databinding.FragmentAllProductBinding
 import com.teebay.appname.features.allProduct.adapter.CategoryListAdapter
@@ -37,7 +36,7 @@ class AllProductFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.fetchAllProducts()
-        viewModel.fetchACategories()
+        viewModel.fetchCategories()
         setObserver()
     }
 
@@ -58,13 +57,21 @@ class AllProductFragment : Fragment() {
                     binding?.loader?.visibility = View.GONE
                     binding?.rvProduct?.visibility = View.VISIBLE
 
-                    val result = it.data as List<Product>
-                    productAdapter = ProductListAdapter(result) { index ->
-                        val product = result[index]
-                        val action = AllProductFragmentDirections.actionMiAllProductToProductDetailsFragment(product)
-                        findNavController().navigate(action)
+                    val result = it.data as? List<Product>
+
+                    if (result.isNullOrEmpty()) {
+                        binding?.viewNoProduct?.root?.visibility = View.VISIBLE
+                    } else {
+                        productAdapter = ProductListAdapter(result) { index ->
+                            val product = result[index]
+                            val action =
+                                AllProductFragmentDirections.actionMiAllProductToProductDetailsFragment(
+                                    product
+                                )
+                            findNavController().navigate(action)
+                        }
+                        binding?.rvProduct?.adapter = productAdapter
                     }
-                    binding?.rvProduct?.adapter = productAdapter
                 }
             }
         }

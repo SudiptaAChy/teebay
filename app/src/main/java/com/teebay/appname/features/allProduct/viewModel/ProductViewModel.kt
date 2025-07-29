@@ -13,7 +13,6 @@ import com.teebay.appname.utils.SecuredSharedPref
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -31,7 +30,7 @@ class ProductViewModel @Inject constructor(
     private var allProducts = listOf<Product>()
     private val selectedCategories = mutableListOf<Category>()
 
-    fun fetchACategories() {
+    fun fetchCategories() {
         viewModelScope.launch {
             val result = withContext(Dispatchers.IO) { repository.fetchCategories() }
             _categoriesState.value = result.fold(
@@ -42,12 +41,14 @@ class ProductViewModel @Inject constructor(
     }
 
     fun fetchAllProducts() {
+        val uid = pref.get(PrefKeys.ID.name, null)?.toInt() ?: Int.MIN_VALUE
         viewModelScope.launch {
             val result = withContext(Dispatchers.IO) { repository.fetchAllProducts() }
             _productState.value = result.fold(
                 onSuccess = {
                     allProducts = it
-                    ResponseState.Success(it)
+                    val otherProducts = it.filter { it.seller != uid }
+                    ResponseState.Success(otherProducts)
                 },
                 onFailure = { ResponseState.Error(it.message ?: "unknown error") }
             )

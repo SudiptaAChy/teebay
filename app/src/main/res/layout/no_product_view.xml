@@ -13,6 +13,7 @@
         android:layout_width="@dimen/_60sdp"
         android:layout_height="@dimen/_60sdp"
         android:src="@drawable/ic_warning"
+        app:tint="@color/red"
         android:contentDescription="@string/no_product_found"/>
 
     <TextView

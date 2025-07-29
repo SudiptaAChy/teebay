@@ -41,12 +41,18 @@ class MyProductFragment : Fragment() {
         }
 
         val products = viewModel.fetchMyProducts()
-        productAdapter = ProductListAdapter(products) { index ->
-            val product = products[index]
-            val action = MyProductFragmentDirections.actionMiMyProductToEditProductFragment(product)
-            findNavController().navigate(action)
+
+        if (products.isEmpty()) {
+            binding?.viewNoProduct?.root?.visibility = View.VISIBLE
+        } else {
+            productAdapter = ProductListAdapter(products) { index ->
+                val product = products[index]
+                val action =
+                    MyProductFragmentDirections.actionMiMyProductToEditProductFragment(product)
+                findNavController().navigate(action)
+            }
+            binding?.rvProduct?.adapter = productAdapter
         }
-        binding?.rvProduct?.adapter = productAdapter
     }
 
     override fun onDestroyView() {
