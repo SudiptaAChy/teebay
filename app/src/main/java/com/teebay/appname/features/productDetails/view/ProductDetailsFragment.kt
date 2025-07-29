@@ -22,6 +22,7 @@ import com.teebay.appname.R
 import com.teebay.appname.databinding.DialogDatePickerBinding
 import com.teebay.appname.features.productDetails.viewModel.ProductDetailsViewModel
 import com.teebay.appname.network.ResponseState
+import com.teebay.appname.utils.formatDate
 import com.teebay.appname.utils.formatDateToISO
 import com.teebay.appname.utils.formatDateToUI
 import com.teebay.appname.utils.isFromDateBeforeToDate
@@ -55,7 +56,6 @@ class ProductDetailsFragment : Fragment() {
         return binding?.root
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUI()
@@ -71,6 +71,7 @@ class ProductDetailsFragment : Fragment() {
             tvRentPrice.text = product?.rentPrice.toMoneySign()
             tvRentOption.text = getString(R.string.rent_option_display, product?.rentOption ?: "")
             tvDescription.text = product?.description ?: ""
+            tvDate.text = formatDate(product?.datePosted.toString())
             Glide.with(requireContext())
                 .load(product?.productImage)
                 .error(R.drawable.ic_image_error)

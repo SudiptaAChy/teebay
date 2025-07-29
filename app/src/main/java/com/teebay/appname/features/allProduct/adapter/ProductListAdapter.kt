@@ -5,11 +5,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
+import com.teebay.appname.R
 import com.teebay.appname.databinding.ProductItemViewBinding
 import com.teebay.appname.features.allProduct.model.Product
 import com.teebay.appname.utils.formatDate
 import com.teebay.appname.utils.toMoneySign
 import com.teebay.appname.utils.shortenText
+import okhttp3.internal.platform.PlatformRegistry.applicationContext
 
 class ProductListAdapter(
     private var products: List<Product>,
@@ -25,7 +27,6 @@ class ProductListAdapter(
         return ViewHolder(binding)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val product = products[position]
         holder.binding.apply {
@@ -33,7 +34,7 @@ class ProductListAdapter(
             tvCategory.text = product.categories?.joinToString(", ")
             tvPurchasePrice.text = product.purchasePrice.toMoneySign()
             tvRentPrice.text = product.rentPrice.toMoneySign()
-            tvRentOption.text = "(${product.rentOption})"
+            tvRentOption.text = applicationContext?.getString(R.string.rent_option_display, product.rentOption ?: "")
             tvDescription.text = product.description.shortenText()
             tvDate.text = formatDate(product.datePosted.toString())
         }

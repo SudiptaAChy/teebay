@@ -18,6 +18,7 @@ import com.teebay.appname.features.allProduct.view.AllProductFragmentDirections
 import com.teebay.appname.features.productDetails.viewModel.ProductDetailsViewModel
 import com.teebay.appname.network.FCMService
 import com.teebay.appname.network.ResponseState
+import com.teebay.appname.utils.formatDate
 import com.teebay.appname.utils.toMoneySign
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -86,6 +87,7 @@ class ProductDetailPendingActivity : AppCompatActivity() {
                         tvRentPrice.text = product.rentPrice.toMoneySign()
                         tvRentOption.text = getString(R.string.rent_option_display, product.rentOption ?: "")
                         tvDescription.text = product.description ?: ""
+                        tvDate.text = formatDate(product.datePosted.toString())
                         Glide.with(this@ProductDetailPendingActivity)
                             .load(product.productImage)
                             .error(R.drawable.ic_image_error)
