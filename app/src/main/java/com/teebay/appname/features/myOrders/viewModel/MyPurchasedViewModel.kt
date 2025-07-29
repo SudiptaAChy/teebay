@@ -19,8 +19,8 @@ class MyPurchasedViewModel @Inject constructor(
     private val orderRepository: MyOrderRepository,
     private val productRepository: ProductRepository
 ): ViewModel() {
-    private val _state = MutableLiveData<ResponseState<Any>>()
-    val state: LiveData<ResponseState<Any>> = _state
+    private val _state = MutableLiveData<ResponseState<List<Product>>>()
+    val state: LiveData<ResponseState<List<Product>>> = _state
 
     fun fetchPurchasedProducts() {
         _state.value = ResponseState.Loading

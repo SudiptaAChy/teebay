@@ -39,8 +39,8 @@ class CategoryInputFragment : Fragment() {
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
                 }
                 ResponseState.Loading -> {}
-                is ResponseState.Success<*> -> {
-                    categories = it.data as List<Category>
+                is ResponseState.Success -> {
+                    categories = it.data
                     ArrayAdapter(
                         requireContext(),
                         android.R.layout.simple_spinner_item,

@@ -21,8 +21,8 @@ class LoginViewModel @Inject constructor(
     private val securedPref: SecuredSharedPref,
     private val pref: SharedPref,
 ): ViewModel() {
-    private val _state = MutableLiveData<ResponseState<Any>>()
-    val state: LiveData<ResponseState<Any>> = _state
+    private val _state = MutableLiveData<ResponseState<LoginResponseModel>>()
+    val state: LiveData<ResponseState<LoginResponseModel>> = _state
 
     fun loginUser(email: String, password: String) {
         val fcm = securedPref.get(PrefKeys.FCM.name, null)

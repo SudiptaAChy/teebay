@@ -111,7 +111,7 @@ class AddProductFragment : BottomSheetDialogFragment() {
                 ResponseState.Loading -> {
                     binding?.btnSubmit?.isEnabled = false
                 }
-                is ResponseState.Success<*> -> {
+                is ResponseState.Success -> {
                     showAlert("Product added successfully!")
                     binding?.btnSubmit?.isEnabled = true
                     dismiss()

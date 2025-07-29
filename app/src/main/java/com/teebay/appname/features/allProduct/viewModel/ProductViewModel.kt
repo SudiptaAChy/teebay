@@ -21,14 +21,16 @@ class ProductViewModel @Inject constructor(
     private val repository: ProductRepository,
     private val pref: SecuredSharedPref
 ): ViewModel() {
-    private val _productState = MutableLiveData<ResponseState<Any>>()
-    val productState: LiveData<ResponseState<Any>> = _productState
+    private val _productState = MutableLiveData<ResponseState<List<Product>>>()
+    val productState: LiveData<ResponseState<List<Product>>> = _productState
 
-    private val _categoriesState = MutableLiveData<ResponseState<Any>>()
-    val categoriesState: LiveData<ResponseState<Any>> = _categoriesState
+    private val _categoriesState = MutableLiveData<ResponseState<List<Category>>>()
+    val categoriesState: LiveData<ResponseState<List<Category>>> = _categoriesState
 
     private var allProducts = listOf<Product>()
     private val selectedCategories = mutableListOf<Category>()
+
+    private var userId= pref.get(PrefKeys.ID.name, null)?.toInt() ?: Int.MIN_VALUE
 
     fun fetchCategories() {
         viewModelScope.launch {
@@ -41,13 +43,12 @@ class ProductViewModel @Inject constructor(
     }
 
     fun fetchAllProducts() {
-        val uid = pref.get(PrefKeys.ID.name, null)?.toInt() ?: Int.MIN_VALUE
         viewModelScope.launch {
             val result = withContext(Dispatchers.IO) { repository.fetchAllProducts() }
             _productState.value = result.fold(
                 onSuccess = {
                     allProducts = it
-                    val otherProducts = it.filter { it.seller != uid }
+                    val otherProducts = it.filter { it.seller != userId }
                     ResponseState.Success(otherProducts)
                 },
                 onFailure = { ResponseState.Error(it.message ?: "unknown error") }
@@ -62,11 +63,12 @@ class ProductViewModel @Inject constructor(
             selectedCategories.remove(category)
         }
 
-        if (selectedCategories.isEmpty()) return allProducts
+        val otherProducts = allProducts.filter { it.seller != userId }
+        if (selectedCategories.isEmpty()) return otherProducts
 
         val filteredProducts = mutableListOf<Product>()
         selectedCategories.forEach { selected ->
-            allProducts.forEach { item ->
+            otherProducts.forEach { item ->
                 if (selected.value == item.categories?.first()) {
                     filteredProducts.add(item)
                 }
@@ -77,7 +79,6 @@ class ProductViewModel @Inject constructor(
     }
 
     fun fetchMyProducts(): List<Product> {
-        val id = pref.get(PrefKeys.ID.name, null)?.toInt() ?: return emptyList()
-        return allProducts.filter { it.seller == id }
+        return allProducts.filter { it.seller == userId }
     }
 }

@@ -6,7 +6,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.teebay.appname.features.allProduct.model.Product
 import com.teebay.appname.features.myProduct.model.AddProductRequestModel
+import com.teebay.appname.features.myProduct.model.AddProductResponseModel
+import com.teebay.appname.features.myProduct.model.Category
 import com.teebay.appname.features.myProduct.repository.ProductRepository
+import com.teebay.appname.network.EmptyResponseModel
 import com.teebay.appname.network.ResponseState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -21,14 +24,14 @@ class EditProductViewModel @Inject constructor(
 ): ViewModel() {
     private val _product = MutableLiveData(AddProductRequestModel())
 
-    private val _categoriesState = MutableLiveData<ResponseState<Any>>()
-    val categoriesState: LiveData<ResponseState<Any>> = _categoriesState
+    private val _categoriesState = MutableLiveData<ResponseState<List<Category>>>()
+    val categoriesState: LiveData<ResponseState<List<Category>>> = _categoriesState
 
-    private val _deleteState = MutableLiveData<ResponseState<Any>>()
-    val deleteState: LiveData<ResponseState<Any>> = _deleteState
+    private val _deleteState = MutableLiveData<ResponseState<EmptyResponseModel>>()
+    val deleteState: LiveData<ResponseState<EmptyResponseModel>> = _deleteState
 
-    private val _updateState = MutableLiveData<ResponseState<Any>>()
-    val updateState: LiveData<ResponseState<Any>> = _updateState
+    private val _updateState = MutableLiveData<ResponseState<AddProductResponseModel>>()
+    val updateState: LiveData<ResponseState<AddProductResponseModel>> = _updateState
 
     fun fetchCategories() {
         viewModelScope.launch {

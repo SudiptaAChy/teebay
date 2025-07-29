@@ -8,6 +8,8 @@ import com.teebay.appname.features.myProduct.model.AddProductRequestModel
 import com.teebay.appname.features.myProduct.repository.ProductRepository
 import com.teebay.appname.network.ResponseState
 import com.teebay.appname.constants.PrefKeys
+import com.teebay.appname.features.myProduct.model.AddProductResponseModel
+import com.teebay.appname.features.myProduct.model.Category
 import com.teebay.appname.utils.SecuredSharedPref
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -27,11 +29,11 @@ class AddProductViewModel @Inject constructor(
     private val _productSummary = MutableLiveData<String>()
     val productSummary: LiveData<String> = _productSummary
 
-    private val _productState = MutableLiveData<ResponseState<Any>>()
-    val productState: LiveData<ResponseState<Any>> = _productState
+    private val _productState = MutableLiveData<ResponseState<AddProductResponseModel>>()
+    val productState: LiveData<ResponseState<AddProductResponseModel>> = _productState
 
-    private val _categoriesState = MutableLiveData<ResponseState<Any>>()
-    val categoriesState: LiveData<ResponseState<Any>> = _categoriesState
+    private val _categoriesState = MutableLiveData<ResponseState<List<Category>>>()
+    val categoriesState: LiveData<ResponseState<List<Category>>> = _categoriesState
 
     fun addTitle(value: String) {
         val newProduct = _product.value?.copy(title = value)

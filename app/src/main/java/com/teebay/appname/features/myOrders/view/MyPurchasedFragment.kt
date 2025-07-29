@@ -7,11 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import com.teebay.appname.databinding.FragmentMyPurchasedBinding
 import com.teebay.appname.features.allProduct.adapter.ProductListAdapter
-import com.teebay.appname.features.allProduct.model.Product
-import com.teebay.appname.features.allProduct.view.AllProductFragmentDirections
 import com.teebay.appname.features.myOrders.viewModel.MyPurchasedViewModel
 import com.teebay.appname.network.ResponseState
 import dagger.hilt.android.AndroidEntryPoint
@@ -51,16 +48,16 @@ class MyPurchasedFragment : Fragment() {
                         loader.visibility = View.VISIBLE
                     }
                 }
-                is ResponseState.Success<*> -> {
+                is ResponseState.Success -> {
                     binding?.loader?.visibility = View.GONE
 
-                    val result = it.data as? List<Product>
+                    val products = it.data
 
-                    if (result.isNullOrEmpty()) {
+                    if (products.isEmpty()) {
                         binding?.viewNoProduct?.root?.visibility = View.VISIBLE
                     } else {
                         binding?.rvProducts?.visibility = View.VISIBLE
-                        binding?.rvProducts?.adapter = ProductListAdapter(result)
+                        binding?.rvProducts?.adapter = ProductListAdapter(products)
                     }
                 }
             }

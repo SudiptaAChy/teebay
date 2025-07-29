@@ -11,9 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.teebay.appname.databinding.FragmentAllProductBinding
 import com.teebay.appname.features.allProduct.adapter.CategoryListAdapter
 import com.teebay.appname.features.allProduct.adapter.ProductListAdapter
-import com.teebay.appname.features.allProduct.model.Product
 import com.teebay.appname.features.allProduct.viewModel.ProductViewModel
-import com.teebay.appname.features.myProduct.model.Category
 import com.teebay.appname.network.ResponseState
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -53,17 +51,18 @@ class AllProductFragment : Fragment() {
                         loader.visibility = View.VISIBLE
                     }
                 }
-                is ResponseState.Success<*> -> {
+                is ResponseState.Success -> {
                     binding?.loader?.visibility = View.GONE
                     binding?.rvProduct?.visibility = View.VISIBLE
 
-                    val result = it.data as? List<Product>
+                    val products = it.data
 
-                    if (result.isNullOrEmpty()) {
+                    if (products.isEmpty()) {
                         binding?.viewNoProduct?.root?.visibility = View.VISIBLE
                     } else {
-                        productAdapter = ProductListAdapter(result) { index ->
-                            val product = result[index]
+                        binding?.viewNoProduct?.root?.visibility = View.GONE
+                        productAdapter = ProductListAdapter(products) { index ->
+                            val product = products[index]
                             val action =
                                 AllProductFragmentDirections.actionMiAllProductToProductDetailsFragment(
                                     product
@@ -82,13 +81,18 @@ class AllProductFragment : Fragment() {
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
                 }
                 ResponseState.Loading -> {}
-                is ResponseState.Success<*> -> {
-                    val result = it.data as List<Category>
+                is ResponseState.Success -> {
+                    val categories = it.data
                     binding?.tvCategory?.apply {
                         visibility = View.VISIBLE
-                        adapter = CategoryListAdapter(result) {
+                        adapter = CategoryListAdapter(categories) {
                             val products = viewModel.onCategorySelected(it)
                             productAdapter.setData(products)
+                            if (products.isEmpty()) {
+                                binding?.viewNoProduct?.root?.visibility = View.VISIBLE
+                            } else {
+                                binding?.viewNoProduct?.root?.visibility = View.GONE
+                            }
                         }
                     }
                 }

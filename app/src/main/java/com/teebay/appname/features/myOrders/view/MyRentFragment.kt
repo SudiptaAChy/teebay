@@ -49,16 +49,16 @@ class MyRentFragment : Fragment() {
                         loader.visibility = View.VISIBLE
                     }
                 }
-                is ResponseState.Success<*> -> {
+                is ResponseState.Success -> {
                     binding?.loader?.visibility = View.GONE
 
-                    val result = it.data as? List<Product>
+                    val products = it.data
 
-                    if (result.isNullOrEmpty()) {
+                    if (products.isEmpty()) {
                         binding?.viewNoProduct?.root?.visibility = View.VISIBLE
                     } else {
                         binding?.rvProducts?.visibility = View.VISIBLE
-                        binding?.rvProducts?.adapter = ProductListAdapter(result)
+                        binding?.rvProducts?.adapter = ProductListAdapter(products)
                     }
                 }
             }

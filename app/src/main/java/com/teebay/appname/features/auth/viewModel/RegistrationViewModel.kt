@@ -21,8 +21,8 @@ class RegistrationViewModel @Inject constructor(
     private val securedPref: SecuredSharedPref,
     private val pref: SharedPref,
 ): ViewModel() {
-    private val _state = MutableLiveData<ResponseState<Any>>()
-    val state: LiveData<ResponseState<Any>> = _state
+    private val _state = MutableLiveData<ResponseState<RegisterResponseModel>>()
+    val state: LiveData<ResponseState<RegisterResponseModel>> = _state
 
     fun registerUser(
         request: RegisterRequestModel

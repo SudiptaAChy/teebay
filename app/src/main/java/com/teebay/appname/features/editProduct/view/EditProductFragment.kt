@@ -138,8 +138,8 @@ class EditProductFragment : Fragment() {
                     showMessage(it.message)
                 }
                 ResponseState.Loading -> {}
-                is ResponseState.Success<*> -> {
-                    categories = it.data as List<Category>
+                is ResponseState.Success -> {
+                    categories = it.data
                     ArrayAdapter(
                         requireContext(),
                         android.R.layout.simple_spinner_item,
@@ -159,7 +159,7 @@ class EditProductFragment : Fragment() {
                     showMessage(it.message)
                 }
                 ResponseState.Loading -> { loadingDialog.show() }
-                is ResponseState.Success<*> -> {
+                is ResponseState.Success -> {
                     loadingDialog.dismiss()
                     showMessage("Product deleted successfully")
                     findNavController().popBackStack()
@@ -174,7 +174,7 @@ class EditProductFragment : Fragment() {
                     showMessage(it.message)
                 }
                 ResponseState.Loading -> { loadingDialog.show() }
-                is ResponseState.Success<*> -> {
+                is ResponseState.Success -> {
                     loadingDialog.dismiss()
                     showMessage("Product updated successfully")
                     findNavController().popBackStack()

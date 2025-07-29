@@ -77,13 +77,13 @@ class ProductDetailPendingActivity : AppCompatActivity() {
                         loader.visibility = View.VISIBLE
                     }
                 }
-                is ResponseState.Success<*> -> {
+                is ResponseState.Success -> {
                     binding.apply {
                         loader.visibility = View.GONE
                         viewProductDetails.root.visibility = View.VISIBLE
                     }
 
-                    val product = it.data as Product
+                    val product = it.data
 
                     binding.viewProductDetails.apply {
                         tvTitle.text = product.title ?: ""

@@ -78,12 +78,10 @@ class LoginFragment : Fragment() {
                     (requireActivity() as AuthActivity).showMessage(it.message)
                 }
                 ResponseState.Loading -> showLoader()
-                is ResponseState.Success<*> -> {
+                is ResponseState.Success -> {
                     hideLoader()
-                    val data = it.data as? LoginResponseModel
-                    data?.let { response ->
-                        viewModel.saveCredentials(response)
-                    }
+                    val data = it.data
+                    viewModel.saveCredentials(data)
                     (requireActivity() as AuthActivity).gotoDashboard()
                 }
             }

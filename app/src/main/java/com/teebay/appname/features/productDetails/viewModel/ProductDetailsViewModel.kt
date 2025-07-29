@@ -5,9 +5,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.teebay.appname.constants.PrefKeys
+import com.teebay.appname.features.allProduct.model.Product
 import com.teebay.appname.features.myProduct.repository.ProductRepository
 import com.teebay.appname.features.productDetails.model.PurchaseRequestModel
+import com.teebay.appname.features.productDetails.model.PurchaseResponseModel
 import com.teebay.appname.features.productDetails.model.RentRequestModel
+import com.teebay.appname.features.productDetails.model.RentResponseModel
 import com.teebay.appname.network.ResponseState
 import com.teebay.appname.utils.SecuredSharedPref
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,14 +24,14 @@ class ProductDetailsViewModel @Inject constructor(
     private val repository: ProductRepository,
     private val pref: SecuredSharedPref
 ): ViewModel() {
-    private val _purchaseState = MutableLiveData<ResponseState<Any>>()
-    val purchaseState: LiveData<ResponseState<Any>> = _purchaseState
+    private val _purchaseState = MutableLiveData<ResponseState<PurchaseResponseModel>>()
+    val purchaseState: LiveData<ResponseState<PurchaseResponseModel>> = _purchaseState
 
-    private val _rentState = MutableLiveData<ResponseState<Any>>()
-    val rentState: LiveData<ResponseState<Any>> = _rentState
+    private val _rentState = MutableLiveData<ResponseState<RentResponseModel>>()
+    val rentState: LiveData<ResponseState<RentResponseModel>> = _rentState
 
-    private val _productState = MutableLiveData<ResponseState<Any>>()
-    val productState: LiveData<ResponseState<Any>> = _productState
+    private val _productState = MutableLiveData<ResponseState<Product>>()
+    val productState: LiveData<ResponseState<Product>> = _productState
 
     fun purchase(pid: Int?) {
         val pid = pid ?: return
