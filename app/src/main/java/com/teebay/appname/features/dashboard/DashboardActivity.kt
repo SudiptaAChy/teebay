@@ -1,9 +1,11 @@
 package com.teebay.appname.features.dashboard
 
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.NavController
@@ -35,6 +37,9 @@ class DashboardActivity : AppCompatActivity() {
                 if (binding.bottomNav.isVisible) 0 else systemBars.bottom
             )
             insets
+        }
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.VANILLA_ICE_CREAM) {
+            window.statusBarColor = ContextCompat.getColor(this, R.color.statusBarColor)
         }
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.dashboardNavHost) as NavHostFragment

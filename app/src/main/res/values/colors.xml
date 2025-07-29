@@ -6,4 +6,5 @@
     <color name="grey">#808080</color>
     <color name="selectedColor">#CF9FFF</color>
     <color name="red">#C70000</color>
+    <color name="statusBarColor">#6200EE</color>
 </resources>
