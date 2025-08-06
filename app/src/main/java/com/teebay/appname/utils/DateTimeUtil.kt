@@ -37,3 +37,16 @@ fun isFromDateBeforeToDate(fromDate: String, toDate: String): Boolean {
     val to = format.parse(toDate) ?: return false
     return from.before(to)
 }
+
+fun isBeforeDate(fromDate: String, toDate: String): Boolean {
+    return try {
+        val format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault()).apply {
+            timeZone = TimeZone.getTimeZone("UTC")
+        }
+        val from = format.parse(fromDate)
+        val to = format.parse(toDate)
+        from != null && to != null && from.before(to)
+    } catch (e: Exception) {
+        false
+    }
+}

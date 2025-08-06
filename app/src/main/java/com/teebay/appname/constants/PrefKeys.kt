@@ -8,4 +8,5 @@ enum class PrefKeys {
     LNAME,
     ADDRESS,
     FCM,
+    LAST_SYNCED
 }
